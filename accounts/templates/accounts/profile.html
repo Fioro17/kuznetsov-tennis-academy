@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile | Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="container">
+
+        <div class="auth-card">
+
+            <p class="hero-eyebrow">
+                Member Profile
+            </p>
+
+            <img
+            src="{{ user.profile.profile_picture.url }}"
+            alt="{{ user.username }} profile picture"
+            class="profile-picture"
+            >
+
+            <h1>
+                {{ user.username }}
+            </h1>
+
+            <p>
+                <strong>Name:</strong>
+                {{ user.first_name }} {{ user.last_name }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ user.email|default:"Not provided" }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ user.profile.phone_number|default:"Not provided" }}
+            </p>
+
+            <p>
+                <strong>Role:</strong>
+                {{ user.profile.get_role_display }}
+            </p>
+
+            <p>
+                <strong>Player level:</strong>
+                {{ user.profile.get_player_level_display }}
+            </p>
+
+            <p>
+                <strong>Bio:</strong>
+                {{ user.profile.bio|default:"No bio added yet." }}
+            </p>
+
+            <a
+                href="{% url 'edit_profile' %}"
+                class="btn hero-primary-button w-100"
+            >
+                Edit Profile
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,318 @@
+:root {
+    --academy-green: #1F3A2E;
+    --academy-dark-green: #14271F;
+    --academy-gold: #B89B5E;
+    --academy-navy: #0E1A2B;
+
+    --academy-background: #FAF8F3;
+    --academy-surface: #FFFFFF;
+    --academy-text: #4D554F;
+    --academy-white: #FFFFFF;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--academy-background);
+    color: var(--academy-navy);
+
+    font-family: "Montserrat", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Cormorant Garamond", serif;
+}
+
+/* ---------- NAVBAR ---------- */
+
+.main-navbar {
+    background-color: var(--academy-green);
+    border-bottom: 2px solid var(--academy-gold);
+
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.academy-brand {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 1.45rem;
+    font-weight: 600;
+
+    letter-spacing: 2px;
+}
+
+.main-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    margin-left: 16px;
+
+    transition: 0.25s ease;
+}
+
+.main-navbar .nav-link:hover {
+    color: var(--academy-gold);
+}
+
+/* ---------- RESERVATION BUTTON ---------- */
+
+.reservation-button {
+    border: 1px solid var(--academy-gold);
+
+    border-radius: 0;
+
+    color: var(--academy-white);
+
+    font-size: 0.8rem;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    padding: 10px 18px;
+
+    transition: 0.25s ease;
+}
+
+.reservation-button:hover {
+    background-color: var(--academy-gold);
+    color: var(--academy-dark-green);
+}
+
+/* ---------- HERO SECTION ---------- */
+
+.hero-section {
+    min-height: calc(100vh - 90px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--academy-background);
+
+    padding: 80px 20px;
+}
+
+.hero-eyebrow {
+    color: var(--academy-gold);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    color: var(--academy-green);
+
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 600;
+
+    line-height: 0.95;
+
+    margin: 20px auto;
+
+    max-width: 900px;
+}
+
+.hero-description {
+    color: var(--academy-text);
+
+    font-size: 1.05rem;
+    line-height: 1.8;
+
+    margin: 0 auto;
+
+    max-width: 680px;
+}
+
+/* ---------- HERO BUTTONS ---------- */
+
+.hero-primary-button,
+.hero-secondary-button {
+    border-radius: 0;
+
+    font-size: 0.8rem;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    padding: 14px 28px;
+
+    margin: 8px;
+
+    transition: 0.25s ease;
+}
+
+.hero-primary-button {
+    background-color: var(--academy-green);
+
+    border: 1px solid var(--academy-green);
+
+    color: var(--academy-white);
+}
+
+.hero-primary-button:hover {
+    background-color: var(--academy-dark-green);
+
+    color: var(--academy-white);
+}
+
+.hero-secondary-button {
+    background-color: transparent;
+
+    border: 1px solid var(--academy-green);
+
+    color: var(--academy-green);
+}
+
+.hero-secondary-button:hover {
+    background-color: var(--academy-green);
+
+    color: var(--academy-white);
+}
+
+/* ---------- AUTHENTICATION ---------- */
+
+.auth-section {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
+    padding: 70px 20px;
+}
+
+.auth-card {
+    background-color: var(--academy-surface);
+    border-top: 3px solid var(--academy-gold);
+    box-shadow: 0 18px 50px rgba(20, 39, 31, 0.12);
+    margin: 0 auto;
+    max-width: 520px;
+    padding: 48px;
+}
+
+.auth-card h1 {
+    color: var(--academy-green);
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.auth-card .form-control {
+    border-radius: 0;
+    padding: 12px;
+}
+
+.auth-card .form-control:focus {
+    border-color: var(--academy-gold);
+    box-shadow: 0 0 0 0.2rem rgba(184, 155, 94, 0.15);
+}
+
+.auth-link {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.auth-link a {
+    color: var(--academy-green);
+    font-weight: 600;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 0 auto 24px;
+    border: 3px solid var(--academy-gold);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ---------- DASHBOARD ---------- */
+
+.dashboard-section {
+    min-height: calc(100vh - 90px);
+    padding: 70px 20px;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+    color: var(--academy-green);
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    margin-bottom: 8px;
+}
+
+.dashboard-profile-picture {
+    width: 130px;
+    height: 130px;
+    border: 3px solid var(--academy-gold);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dashboard-card {
+    height: 100%;
+    background-color: var(--academy-surface);
+    border-top: 3px solid var(--academy-gold);
+    box-shadow: 0 14px 35px rgba(20, 39, 31, 0.1);
+    padding: 32px;
+}
+
+.dashboard-card h2,
+.dashboard-role-panel h2 {
+    color: var(--academy-green);
+    font-size: 2.2rem;
+}
+
+.dashboard-role-panel {
+    background-color: var(--academy-green);
+    color: var(--academy-white);
+    margin-top: 40px;
+    padding: 35px;
+}
+
+.dashboard-role-panel h2 {
+    color: var(--academy-gold);
+}
+
+@media (max-width: 767px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.dashboard-reservation {
+    border-bottom: 1px solid rgba(20, 39, 31, 0.15);
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+}
+
+.dashboard-reservation:last-of-type {
+    border-bottom: none;
+}
+
+.dashboard-reservation p {
+    margin-bottom: 0;
+}
+
+.dashboard-card .btn {
+    margin-top: 10px;
+    margin-right: 8px;
+}

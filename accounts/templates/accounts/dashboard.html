@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard | Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <img
+                src="{{ user_profile.profile_picture.url }}"
+                alt="{{ user.username }} profile picture"
+                class="dashboard-profile-picture"
+            >
+
+            <div>
+                <p class="hero-eyebrow">
+                    Member Dashboard
+                </p>
+
+                <h1>
+                    Welcome, {{ user.first_name|default:user.username }}
+                </h1>
+
+                <p>
+                    {{ user_profile.get_role_display }}
+                    ·
+                    {{ user_profile.get_player_level_display }}
+                </p>
+            </div>
+
+        </div>
+
+        <div class="row g-4 mt-3">
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Profile
+                    </h2>
+
+                    <p>
+                        Review and update your personal and tennis information.
+                    </p>
+
+                    <a
+                        href="{% url 'profile' %}"
+                        class="btn hero-secondary-button"
+                    >
+                        View Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Reservations
+                    </h2>
+
+                    {% if upcoming_reservations %}
+
+                        {% for reservation in upcoming_reservations %}
+
+                            <div class="dashboard-reservation">
+
+                                <strong>
+                                    {{ reservation.court }}
+                                </strong>
+
+                                <p>
+                                    {{ reservation.date }}
+                                    <br>
+                                    {{ reservation.start_time }}
+                                    –
+                                    {{ reservation.end_time }}
+                                </p>
+
+                            </div>
+
+                        {% endfor %}
+
+                        <a
+                            href="{% url 'my_reservations' %}"
+                            class="btn hero-secondary-button"
+                        >
+                            View All
+                        </a>
+
+                    {% else %}
+
+                        <p>
+                            You do not have any upcoming reservations yet.
+                        </p>
+
+                    {% endif %}
+
+                    <a
+                        href="{% url 'create_reservation' %}"
+                        class="btn hero-primary-button"
+                    >
+                        Reserve a Court
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Tournaments
+                    </h2>
+
+                    <p>
+                        You are not registered for any tournaments yet.
+                    </p>
+
+                    <a
+                        href="#"
+                        class="btn hero-secondary-button"
+                    >
+                        View Tournaments
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+    </div>
+
+</section>
+
+{% endblock %}

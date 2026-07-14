@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+Reserve a Court | Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="container">
+
+        <div class="auth-card">
+
+            <p class="hero-eyebrow">
+                Court Booking
+            </p>
+
+            <h1>
+                Reserve a Court
+            </h1>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+
+                <button
+                    type="submit"
+                    class="btn hero-primary-button w-100"
+                >
+                    Confirm Reservation
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

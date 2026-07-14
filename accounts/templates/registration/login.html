@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}Login | KTA{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card">
+            <p class="hero-eyebrow">Member Access</p>
+            <h1>Welcome Back</h1>
+
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+
+                <button type="submit" class="btn hero-primary-button w-100">
+                    Log In
+                </button>
+            </form>
+
+            <p class="auth-link">
+                Not a member?
+                <a href="{% url 'register' %}">Create an account</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
