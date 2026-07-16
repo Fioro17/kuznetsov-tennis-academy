@@ -24,8 +24,10 @@
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="{% static 'pages/css/style.css' %}">
-
+    <link
+        rel="stylesheet"
+        href="{% static 'pages/css/style.css' %}"
+    >
 </head>
 
 <body>
@@ -34,7 +36,10 @@
 
         <div class="container-fluid px-4 px-lg-5">
 
-            <a class="navbar-brand academy-brand" href="{% url 'home' %}">
+            <a
+                class="navbar-brand academy-brand"
+                href="{% url 'home' %}"
+            >
                 KUZNETSOV TENNIS ACADEMY
             </a>
 
@@ -45,40 +50,55 @@
                 data-bs-target="#mainNavbar"
                 aria-controls="mainNavbar"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
-
+                aria-label="Toggle navigation"
+            >
                 <span class="navbar-toggler-icon"></span>
-
             </button>
 
-            <div class="collapse navbar-collapse" id="mainNavbar">
+            <div
+                class="collapse navbar-collapse"
+                id="mainNavbar"
+            >
 
                 <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">
+                        <a
+                            class="nav-link"
+                            href="{% url 'home' %}"
+                        >
                             Home
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >
                             Academy
                         </a>
                     </li>
 
                     {% if user.is_authenticated %}
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">
+                            <a
+                                class="nav-link"
+                                href="{% url 'profile' %}"
+                            >
                                 Profile
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}">
+                            <a
+                                class="nav-link"
+                                href="{% url 'dashboard' %}"
+                            >
                                 Dashboard
                             </a>
-                        
+                        </li>
 
                         <li class="nav-item">
                             <span class="nav-link">
@@ -87,10 +107,16 @@
                         </li>
 
                         <li class="nav-item">
-                            <form method="post" action="{% url 'logout' %}">
+                            <form
+                                method="post"
+                                action="{% url 'logout' %}"
+                            >
                                 {% csrf_token %}
 
-                                <button type="submit" class="nav-link btn btn-link logout-button">
+                                <button
+                                    type="submit"
+                                    class="nav-link btn btn-link logout-button"
+                                >
                                     Logout
                                 </button>
                             </form>
@@ -99,13 +125,19 @@
                     {% else %}
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">
+                            <a
+                                class="nav-link"
+                                href="{% url 'login' %}"
+                            >
                                 Login
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">
+                            <a
+                                class="nav-link"
+                                href="{% url 'register' %}"
+                            >
                                 Join
                             </a>
                         </li>
@@ -113,11 +145,11 @@
                     {% endif %}
 
                     <li class="nav-item ms-lg-3">
-                        <a 
-                        class="btn reservation-button" 
-                        href="{% url 'create_reservation' %}"
-                        > 
-                        Make a Reservation
+                        <a
+                            class="btn reservation-button"
+                            href="{% url 'create_reservation' %}"
+                        >
+                            Make a Reservation
                         </a>
                     </li>
 
@@ -130,6 +162,32 @@
     </nav>
 
     <main>
+
+        {% if messages %}
+
+            <div class="container mt-4">
+
+                {% for message in messages %}
+
+                    <div
+                        class="alert alert-success alert-dismissible fade show"
+                        role="alert"
+                    >
+                        {{ message }}
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
 
         {% block content %}
         {% endblock %}

@@ -1,9 +1,9 @@
 from datetime import date, datetime
-
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 from .forms import ReservationForm
 from .models import Reservation
@@ -53,6 +53,7 @@ def create_reservation(request):
 
                 else:
                     reservation.save()
+                    messages.success(request,'Your reservation was created successfully.')
                     return redirect('my_reservations')
 
     else:
@@ -109,5 +110,6 @@ def cancel_reservation(request, reservation_id):
     if request.method == 'POST':
         reservation.status = 'cancelled'
         reservation.save()
+        messages.success(request,'Your reservation was cancelled successfully.')
 
     return redirect('my_reservations')
