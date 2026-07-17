@@ -35,7 +35,9 @@ class ReservationForm(forms.ModelForm):
                     'type': 'time',
                     'class': 'form-control',
                     'step': '1800',
-                }
+                    'min': '08:00',
+                    'max': '21:30',
+                    }
             ),
 
             'end_time': forms.TimeInput(
@@ -43,7 +45,9 @@ class ReservationForm(forms.ModelForm):
                     'type': 'time',
                     'class': 'form-control',
                     'step': '1800',
-                }
+                    'min': '08:30',
+                    'max': '22:00',
+                    }
             ),
         }
 
@@ -148,31 +152,56 @@ class ReservationForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-
         start_time = cleaned_data.get('start_time')
         end_time = cleaned_data.get('end_time')
-
-        if start_time and end_time:
-            start_minutes = (
-                start_time.hour * 60
-                + start_time.minute
+        
+        if not start_time or not end_time:
+            return cleaned_data
+        
+        opening_time = start_time.replace(
+            hour=8,
+            minute=0,
+            second=0,
+            microsecond=0
             )
 
-            end_minutes = (
-                end_time.hour * 60
-                + end_time.minute
+        closing_time = end_time.replace(
+            hour=22,
+            minute=0,
+            second=0,
+            microsecond=0
             )
 
-            duration = end_minutes - start_minutes
+        if start_time < opening_time:
+            raise ValidationError(
+                'Reservations cannot begin before 8:00 AM.'
+            )
 
-            if duration < 30:
-                raise ValidationError(
-                    'A reservation must be at least 30 minutes.'
-                )
+        if end_time > closing_time:
+            raise ValidationError(
+                'Reservations must end by 10:00 PM.'
+            )
 
-            if duration > 120:
-                raise ValidationError(
-                    'A reservation cannot be longer than 2 hours.'
-                )
+        start_minutes = (
+            start_time.hour * 60
+            + start_time.minute
+            )
+
+        end_minutes = (
+            end_time.hour * 60
+            + end_time.minute
+            )
+
+        duration = end_minutes - start_minutes
+
+        if duration < 30:
+            raise ValidationError(
+                'A reservation must be at least 30 minutes.'
+            )
+
+        if duration > 120:
+            raise ValidationError(
+                'A reservation cannot be longer than 2 hours.'
+            )
 
         return cleaned_data

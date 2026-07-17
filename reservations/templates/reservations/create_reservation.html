@@ -1,38 +1,433 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
 
 {% block title %}
-Reserve a Court | Kuznetsov Tennis Academy
+Make a Reservation | Kuznetsov Tennis Academy
 {% endblock %}
 
 {% block content %}
 
-<section class="auth-section">
+<section class="reservation-page">
 
-    <div class="container">
+    <div class="container py-5">
 
-        <div class="auth-card">
+        <div class="reservation-heading text-center mb-5">
 
             <p class="hero-eyebrow">
-                Court Booking
+                Court Reservations
             </p>
 
-            <h1>
-                Reserve a Court
+            <h1 class="hero-title">
+                Make a Reservation
             </h1>
 
-            <form method="post">
+            <p class="reservation-subtitle">
+                Choose a date, review court schedules,
+                and confirm your booking.
+            </p>
 
-                {% csrf_token %}
+            <div class="reservation-rules">
 
-                {% bootstrap_form form %}
+                <span>
+                    Open 8:00 AM–10:00 PM
+                </span>
+
+                <span>
+                    30-minute intervals
+                </span>
+
+                <span>
+                    Maximum 2 hours
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Step 1: Date -->
+
+        <div class="reservation-panel mb-5">
+
+            <div class="reservation-panel-header">
+
+                <div>
+
+                    <p class="section-eyebrow">
+                        Step 1
+                    </p>
+
+                    <h2>
+                        Choose a Date
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Select the day you want to reserve a court.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <form
+                method="get"
+                class="reservation-date-form"
+            >
+
+                <div class="reservation-date-field">
+
+                    <label
+                        for="availability-date"
+                        class="form-label"
+                    >
+                        Reservation date
+                    </label>
+
+                    <input
+                        id="availability-date"
+                        type="date"
+                        name="date"
+                        value="{{ selected_date|default:'' }}"
+                        min="{{ today }}"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
 
                 <button
                     type="submit"
-                    class="btn hero-primary-button w-100"
+                    class="btn academy-primary-button"
                 >
-                    Confirm Reservation
+                    Check Availability
                 </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Step 2: Court availability -->
+
+        {% if selected_date %}
+
+            <div class="reservation-panel mb-5">
+
+                <div class="reservation-panel-header">
+
+                    <div>
+
+                        <p class="section-eyebrow">
+                            Step 2
+                        </p>
+
+                        <h2>
+                            Choose a Court
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Reserved times for {{ selected_date }}
+                            are shown below.
+                        </p>
+
+                    </div>
+
+                    <div class="availability-summary">
+
+                        <span class="summary-dot"></span>
+
+                        Reserved periods
+
+                    </div>
+
+                </div>
+
+
+                {% if court_availability %}
+
+                    <div class="clean-court-list">
+
+                        {% for item in court_availability %}
+
+                            <article class="clean-court-row">
+
+                                <div class="clean-court-info">
+
+                                    <div class="clean-court-title-row">
+
+                                        <div>
+
+                                            <p class="court-category">
+
+                                                {{ item.court.get_location_display }}
+                                                ·
+                                                {{ item.court.get_surface_display }}
+                                                ·
+                                                {{ item.court.get_court_type_display }}
+
+                                            </p>
+
+                                            <h3>
+                                                Court {{ item.court.number }}
+                                            </h3>
+
+                                        </div>
+
+                                        <span class="availability-count">
+
+                                            {{ item.available_slots_count }}
+                                            half-hour slots open
+
+                                        </span>
+
+                                    </div>
+
+                                    <div class="reserved-periods">
+
+                                        {% if item.reserved_periods %}
+
+                                            <span class="reserved-label">
+                                                Reserved:
+                                            </span>
+
+                                            {% for period in item.reserved_periods %}
+
+                                                <span class="reserved-period">
+
+                                                    {{ period.start }}
+                                                    –
+                                                    {{ period.end }}
+
+                                                </span>
+
+                                            {% endfor %}
+
+                                        {% else %}
+
+                                            <span class="fully-available">
+                                                Available all day
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                                <div class="clean-court-action">
+
+                                    <a
+                                        href="{% url 'create_reservation' %}?date={{ selected_date }}&court={{ item.court.id }}#reservation-form"
+                                        class="btn academy-secondary-button"
+                                    >
+                                        Select Court
+                                    </a>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+
+                        <h3>
+                            No active courts found
+                        </h3>
+
+                        <p>
+                            Please contact the academy for assistance.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- Step 3: Reservation form -->
+
+        <div
+            id="reservation-form"
+            class="reservation-panel"
+        >
+
+            <div class="reservation-panel-header">
+
+                <div>
+
+                    <p class="section-eyebrow">
+                        Step 3
+                    </p>
+
+                    <h2>
+                        Confirm Reservation
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Select your court, start time,
+                        and end time.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if selected_date or selected_court %}
+
+                <div class="selected-booking-summary">
+
+                    <div>
+
+                        <p class="selected-booking-label">
+                            Current selection
+                        </p>
+
+                        {% if selected_date %}
+
+                            <p class="selected-booking-value">
+
+                                Date:
+                                <strong>
+                                    {{ selected_date }}
+                                </strong>
+
+                            </p>
+
+                        {% endif %}
+
+                        {% if selected_court %}
+
+                            <p class="selected-booking-value">
+
+                                Court:
+                                <strong>
+                                    {{ selected_court }}
+                                </strong>
+
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                    <p class="selected-booking-help">
+                        Complete the remaining fields below.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                class="reservation-booking-form"
+            >
+
+                {% csrf_token %}
+
+
+                {% if form.non_field_errors %}
+
+                    <div
+                        class="alert alert-danger"
+                        role="alert"
+                    >
+
+                        {% for error in form.non_field_errors %}
+
+                            <p class="mb-0">
+                                {{ error }}
+                            </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="reservation-form-grid">
+
+                    {% for field in form %}
+
+                        <div
+                            class="reservation-field
+                            {% if field.name == 'court' or field.name == 'date' %}
+                                reservation-field-wide
+                            {% endif %}"
+                        >
+
+                            <label
+                                for="{{ field.id_for_label }}"
+                                class="form-label"
+                            >
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+
+                                <div class="form-text">
+                                    {{ field.help_text }}
+                                </div>
+
+                            {% endif %}
+
+                            {% for error in field.errors %}
+
+                                <div class="field-error">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="reservation-form-note">
+
+                    <strong>
+                        Booking rules:
+                    </strong>
+
+                    Reservations must begin and end at
+                    :00 or :30, last between 30 minutes
+                    and 2 hours, and stay within academy hours.
+
+                </div>
+
+
+                <div class="reservation-form-actions">
+
+                    <a
+                        href="{% url 'my_reservations' %}"
+                        class="btn academy-secondary-button"
+                    >
+                        My Reservations
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn academy-primary-button"
+                    >
+                        Confirm Reservation
+                    </button>
+
+                </div>
 
             </form>
 

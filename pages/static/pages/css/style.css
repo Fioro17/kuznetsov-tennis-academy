@@ -29,14 +29,16 @@ h6 {
     font-family: "Cormorant Garamond", serif;
 }
 
+
 /* ---------- NAVBAR ---------- */
 
 .main-navbar {
-    background-color: var(--academy-green);
-    border-bottom: 2px solid var(--academy-gold);
-
     padding-top: 18px;
     padding-bottom: 18px;
+
+    border-bottom: 2px solid var(--academy-gold);
+
+    background-color: var(--academy-green);
 }
 
 .academy-brand {
@@ -49,6 +51,8 @@ h6 {
 }
 
 .main-navbar .nav-link {
+    margin-left: 16px;
+
     color: rgba(255, 255, 255, 0.85);
 
     font-size: 0.85rem;
@@ -57,8 +61,6 @@ h6 {
     letter-spacing: 1px;
     text-transform: uppercase;
 
-    margin-left: 16px;
-
     transition: 0.25s ease;
 }
 
@@ -66,11 +68,13 @@ h6 {
     color: var(--academy-gold);
 }
 
+
 /* ---------- RESERVATION BUTTON ---------- */
 
 .reservation-button {
-    border: 1px solid var(--academy-gold);
+    padding: 10px 18px;
 
+    border: 1px solid var(--academy-gold);
     border-radius: 0;
 
     color: var(--academy-white);
@@ -80,8 +84,6 @@ h6 {
     letter-spacing: 1px;
     text-transform: uppercase;
 
-    padding: 10px 18px;
-
     transition: 0.25s ease;
 }
 
@@ -89,6 +91,7 @@ h6 {
     background-color: var(--academy-gold);
     color: var(--academy-dark-green);
 }
+
 
 /* ---------- HERO SECTION ---------- */
 
@@ -99,9 +102,9 @@ h6 {
     align-items: center;
     justify-content: center;
 
-    background-color: var(--academy-background);
-
     padding: 80px 20px;
+
+    background-color: var(--academy-background);
 }
 
 .hero-eyebrow {
@@ -115,33 +118,37 @@ h6 {
 }
 
 .hero-title {
+    max-width: 900px;
+
+    margin: 20px auto;
+
     color: var(--academy-green);
 
     font-size: clamp(3rem, 7vw, 6.5rem);
     font-weight: 600;
 
     line-height: 0.95;
-
-    margin: 20px auto;
-
-    max-width: 900px;
 }
 
 .hero-description {
+    max-width: 680px;
+
+    margin: 0 auto;
+
     color: var(--academy-text);
 
     font-size: 1.05rem;
     line-height: 1.8;
-
-    margin: 0 auto;
-
-    max-width: 680px;
 }
+
 
 /* ---------- HERO BUTTONS ---------- */
 
 .hero-primary-button,
 .hero-secondary-button {
+    margin: 8px;
+    padding: 14px 28px;
+
     border-radius: 0;
 
     font-size: 0.8rem;
@@ -149,159 +156,177 @@ h6 {
     letter-spacing: 1.5px;
     text-transform: uppercase;
 
-    padding: 14px 28px;
-
-    margin: 8px;
-
     transition: 0.25s ease;
 }
 
 .hero-primary-button {
-    background-color: var(--academy-green);
-
     border: 1px solid var(--academy-green);
 
+    background-color: var(--academy-green);
     color: var(--academy-white);
 }
 
 .hero-primary-button:hover {
     background-color: var(--academy-dark-green);
-
     color: var(--academy-white);
 }
 
 .hero-secondary-button {
-    background-color: transparent;
-
     border: 1px solid var(--academy-green);
 
+    background-color: transparent;
     color: var(--academy-green);
 }
 
 .hero-secondary-button:hover {
     background-color: var(--academy-green);
-
     color: var(--academy-white);
 }
+
 
 /* ---------- AUTHENTICATION ---------- */
 
 .auth-section {
     min-height: calc(100vh - 90px);
+
     display: flex;
     align-items: center;
+
     padding: 70px 20px;
 }
 
 .auth-card {
-    background-color: var(--academy-surface);
-    border-top: 3px solid var(--academy-gold);
-    box-shadow: 0 18px 50px rgba(20, 39, 31, 0.12);
-    margin: 0 auto;
     max-width: 520px;
+
+    margin: 0 auto;
     padding: 48px;
+
+    border-top: 3px solid var(--academy-gold);
+
+    background-color: var(--academy-surface);
+
+    box-shadow: 0 18px 50px rgba(20, 39, 31, 0.12);
 }
 
 .auth-card h1 {
-    color: var(--academy-green);
-    font-size: 3rem;
     margin-bottom: 30px;
+
+    color: var(--academy-green);
+
+    font-size: 3rem;
 }
 
 .auth-card .form-control {
-    border-radius: 0;
     padding: 12px;
+
+    border-radius: 0;
 }
 
 .auth-card .form-control:focus {
     border-color: var(--academy-gold);
-    box-shadow: 0 0 0 0.2rem rgba(184, 155, 94, 0.15);
+
+    box-shadow:
+        0 0 0 0.2rem rgba(184, 155, 94, 0.15);
 }
 
 .auth-link {
     margin-top: 24px;
+
     text-align: center;
 }
 
 .auth-link a {
     color: var(--academy-green);
+
     font-weight: 600;
 }
 
 .profile-picture {
     width: 150px;
     height: 150px;
+
     display: block;
+
     margin: 0 auto 24px;
+
     border: 3px solid var(--academy-gold);
     border-radius: 50%;
+
     object-fit: cover;
 }
+
 
 /* ---------- DASHBOARD ---------- */
 
 .dashboard-section {
     min-height: calc(100vh - 90px);
+
     padding: 70px 20px;
 }
 
 .dashboard-header {
     display: flex;
     align-items: center;
+
     gap: 28px;
+
     margin-bottom: 40px;
 }
 
 .dashboard-header h1 {
-    color: var(--academy-green);
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
     margin-bottom: 8px;
+
+    color: var(--academy-green);
+
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
 }
 
 .dashboard-profile-picture {
     width: 130px;
     height: 130px;
+
     border: 3px solid var(--academy-gold);
     border-radius: 50%;
+
     object-fit: cover;
 }
 
 .dashboard-card {
     height: 100%;
-    background-color: var(--academy-surface);
-    border-top: 3px solid var(--academy-gold);
-    box-shadow: 0 14px 35px rgba(20, 39, 31, 0.1);
+
     padding: 32px;
+
+    border-top: 3px solid var(--academy-gold);
+
+    background-color: var(--academy-surface);
+
+    box-shadow: 0 14px 35px rgba(20, 39, 31, 0.1);
 }
 
 .dashboard-card h2,
 .dashboard-role-panel h2 {
     color: var(--academy-green);
+
     font-size: 2.2rem;
 }
 
 .dashboard-role-panel {
-    background-color: var(--academy-green);
-    color: var(--academy-white);
     margin-top: 40px;
     padding: 35px;
+
+    background-color: var(--academy-green);
+    color: var(--academy-white);
 }
 
 .dashboard-role-panel h2 {
     color: var(--academy-gold);
 }
 
-@media (max-width: 767px) {
-    .dashboard-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
 .dashboard-reservation {
-    border-bottom: 1px solid rgba(20, 39, 31, 0.15);
     margin-bottom: 18px;
     padding-bottom: 12px;
+
+    border-bottom: 1px solid rgba(20, 39, 31, 0.15);
 }
 
 .dashboard-reservation:last-of-type {
@@ -315,4 +340,610 @@ h6 {
 .dashboard-card .btn {
     margin-top: 10px;
     margin-right: 8px;
+}
+
+
+/* ---------- RESERVATION PAGE ---------- */
+
+.reservation-page {
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            rgba(250, 248, 243, 0.96),
+            rgba(250, 248, 243, 0.96)
+        );
+}
+
+.reservation-heading {
+    max-width: 760px;
+
+    margin-inline: auto;
+}
+
+.reservation-subtitle {
+    max-width: 620px;
+
+    margin: 0.75rem auto 1.5rem;
+
+    color: var(--academy-text);
+
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.reservation-rules {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 0.75rem;
+}
+
+.reservation-rules span {
+    padding: 0.55rem 0.9rem;
+
+    border: 1px solid rgba(184, 155, 94, 0.45);
+    border-radius: 999px;
+
+    background-color: rgba(255, 255, 255, 0.7);
+    color: var(--academy-dark-green);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.reservation-panel {
+    padding: 2rem;
+
+    border: 1px solid rgba(31, 58, 46, 0.12);
+    border-radius: 16px;
+
+    background-color: var(--academy-surface);
+
+    box-shadow: 0 18px 45px rgba(14, 26, 43, 0.07);
+}
+
+.reservation-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 1.5rem;
+
+    margin-bottom: 1.75rem;
+}
+
+.reservation-panel-header h2 {
+    margin-bottom: 0.35rem;
+
+    color: var(--academy-dark-green);
+}
+
+.section-eyebrow {
+    margin-bottom: 0.35rem;
+
+    color: var(--academy-gold);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+
+/* ---------- DATE FORM ---------- */
+
+.reservation-date-form {
+    display: flex;
+    align-items: flex-end;
+
+    gap: 1rem;
+}
+
+.reservation-date-field {
+    flex: 1;
+}
+
+
+/* ---------- ACADEMY BUTTONS ---------- */
+
+.academy-primary-button,
+.academy-secondary-button {
+    min-height: 48px;
+
+    padding: 0.75rem 1.3rem;
+
+    border-radius: 8px;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    letter-spacing: 0.03em;
+}
+
+.academy-primary-button {
+    border: 1px solid var(--academy-green);
+
+    background-color: var(--academy-green);
+    color: var(--academy-white);
+}
+
+.academy-primary-button:hover {
+    border-color: var(--academy-dark-green);
+
+    background-color: var(--academy-dark-green);
+    color: var(--academy-white);
+}
+
+.academy-secondary-button {
+    border: 1px solid var(--academy-green);
+
+    background-color: transparent;
+    color: var(--academy-green);
+}
+
+.academy-secondary-button:hover {
+    background-color: var(--academy-green);
+    color: var(--academy-white);
+}
+
+
+/* ---------- CLEAN COURT AVAILABILITY ---------- */
+
+.availability-summary {
+    display: flex;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    color: var(--academy-text);
+
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.summary-dot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background-color: #A95B5B;
+}
+
+.clean-court-list {
+    display: grid;
+
+    gap: 1rem;
+}
+
+.clean-court-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1.5rem;
+
+    padding: 1.35rem 1.5rem;
+
+    border: 1px solid rgba(31, 58, 46, 0.12);
+    border-radius: 12px;
+
+    background-color: #FDFCF9;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.clean-court-row:hover {
+    border-color: rgba(184, 155, 94, 0.55);
+
+    box-shadow: 0 12px 28px rgba(14, 26, 43, 0.06);
+
+    transform: translateY(-2px);
+}
+
+.clean-court-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.clean-court-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 0.8rem;
+}
+
+.clean-court-title-row h3 {
+    margin: 0;
+
+    color: var(--academy-dark-green);
+
+    font-size: 1.35rem;
+}
+
+.court-category {
+    margin-bottom: 0.2rem;
+
+    color: var(--academy-gold);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.availability-count {
+    flex-shrink: 0;
+
+    padding: 0.4rem 0.7rem;
+
+    border-radius: 999px;
+
+    background-color: #EDF4EF;
+    color: var(--academy-dark-green);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.reserved-periods {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.45rem;
+}
+
+.reserved-label {
+    margin-right: 0.2rem;
+
+    color: var(--academy-text);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.reserved-period {
+    padding: 0.35rem 0.6rem;
+
+    border: 1px solid #DFBEBE;
+    border-radius: 6px;
+
+    background-color: #F8EDED;
+    color: #8D4A4A;
+
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+.fully-available {
+    padding: 0.4rem 0.65rem;
+
+    border-radius: 6px;
+
+    background-color: #EDF4EF;
+    color: var(--academy-dark-green);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.clean-court-action {
+    flex-shrink: 0;
+}
+
+
+/* ---------- SELECTED BOOKING ---------- */
+
+.selected-booking-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1.5rem;
+
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.15rem;
+
+    border-left: 3px solid var(--academy-gold);
+    border-radius: 0 8px 8px 0;
+
+    background-color: rgba(184, 155, 94, 0.08);
+}
+
+.selected-booking-label {
+    margin-bottom: 0.2rem;
+
+    color: var(--academy-gold);
+
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.selected-booking-value {
+    margin-bottom: 0.2rem;
+
+    color: var(--academy-dark-green);
+}
+
+.selected-booking-value:last-child {
+    margin-bottom: 0;
+}
+
+.selected-booking-help {
+    margin-bottom: 0;
+
+    color: var(--academy-text);
+
+    font-size: 0.85rem;
+}
+
+
+/* ---------- RESERVATION FORM ---------- */
+
+.reservation-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 1.25rem;
+}
+
+.reservation-field-wide {
+    grid-column: 1 / -1;
+}
+
+.reservation-field .form-control,
+.reservation-field .form-select {
+    min-height: 48px;
+
+    border-color: rgba(31, 58, 46, 0.22);
+    border-radius: 8px;
+}
+
+.reservation-field .form-control:focus,
+.reservation-field .form-select:focus {
+    border-color: var(--academy-gold);
+
+    box-shadow:
+        0 0 0 0.2rem rgba(184, 155, 94, 0.16);
+}
+
+.field-error {
+    margin-top: 0.4rem;
+
+    color: #A33F3F;
+
+    font-size: 0.82rem;
+}
+
+.reservation-form-note {
+    margin-top: 1.5rem;
+    padding: 1rem;
+
+    border-left: 3px solid var(--academy-gold);
+
+    background-color: rgba(184, 155, 94, 0.08);
+    color: var(--academy-text);
+
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.reservation-form-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 1rem;
+
+    margin-top: 1.75rem;
+}
+
+
+/* ---------- EMPTY STATE ---------- */
+
+.empty-state {
+    padding: 3rem 1rem;
+
+    text-align: center;
+}
+
+.empty-state h3 {
+    color: var(--academy-dark-green);
+}
+
+
+/* ---------- TABLETS ---------- */
+
+@media (max-width: 991.98px) {
+
+    .reservation-panel {
+        padding: 1.5rem;
+    }
+
+    .reservation-panel-header {
+        flex-direction: column;
+    }
+
+    .availability-summary {
+        width: 100%;
+    }
+}
+
+
+/* ---------- PHONES ---------- */
+
+@media (max-width: 767.98px) {
+
+    .main-navbar .nav-link {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .reservation-button {
+        width: 100%;
+
+        margin-top: 12px;
+    }
+
+    .hero-section {
+        padding: 60px 16px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.8rem, 15vw, 4.5rem);
+    }
+
+    .hero-primary-button,
+    .hero-secondary-button {
+        width: 100%;
+
+        margin: 6px 0;
+    }
+
+    .auth-card {
+        padding: 32px 22px;
+    }
+
+    .auth-card h1 {
+        font-size: 2.5rem;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-card {
+        padding: 24px;
+    }
+
+    .dashboard-role-panel {
+        padding: 25px;
+    }
+
+    .reservation-page .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .reservation-heading {
+        margin-bottom: 2rem !important;
+    }
+
+    .reservation-rules {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .reservation-rules span {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .reservation-panel {
+        padding: 1.2rem;
+
+        border-radius: 12px;
+    }
+
+    .reservation-date-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .reservation-date-form .btn {
+        width: 100%;
+    }
+
+    .clean-court-row {
+        flex-direction: column;
+        align-items: stretch;
+
+        padding: 1.1rem;
+    }
+
+    .clean-court-title-row {
+        flex-direction: column;
+    }
+
+    .availability-count {
+        align-self: flex-start;
+    }
+
+    .clean-court-action {
+        width: 100%;
+    }
+
+    .clean-court-action .btn {
+        width: 100%;
+    }
+
+    .selected-booking-summary {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 0.5rem;
+    }
+
+    .reservation-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .reservation-field-wide {
+        grid-column: auto;
+    }
+
+    .reservation-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .reservation-form-actions .btn {
+        width: 100%;
+    }
+}
+
+
+/* ---------- SMALL PHONES ---------- */
+
+@media (max-width: 420px) {
+
+    .hero-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .auth-card {
+        padding: 28px 18px;
+    }
+
+    .reservation-panel {
+        padding: 1rem;
+    }
+
+    .clean-court-row {
+        padding: 1rem;
+    }
+
+    .reserved-period {
+        width: 100%;
+
+        text-align: center;
+    }
 }
