@@ -1,0 +1,659 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<main class="academy-page">
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="academy-hero">
+
+        <div class="container">
+
+            <div class="minimal-hero-grid minimal-hero-grid-academy">
+
+                <div class="minimal-hero-copy">
+
+                    <p class="minimal-hero-eyebrow">
+                        The KTA Campus
+                    </p>
+
+                    <h1 class="minimal-hero-title">
+                        Everything a player needs,
+                        <span>in one place.</span>
+                    </h1>
+
+                    <p class="minimal-hero-description">
+                        Tennis courts across multiple surfaces, player residence,
+                        dining, recovery and social spaces within one academy campus.
+                    </p>
+
+                    <div class="minimal-hero-actions">
+
+                        <a
+                            href="#academy-facilities"
+                            class="academy-button academy-button-primary"
+                        >
+                            View Facilities
+                        </a>
+
+                        <a
+                            href="{% url 'create_reservation' %}"
+                            class="academy-button academy-button-secondary"
+                        >
+                            Reserve a Court
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="minimal-hero-media minimal-hero-media-plan">
+
+                    <img
+                        src="{% static 'pages/images/academy/academy-plan.jpeg' %}"
+                        alt="Kuznetsov Tennis Academy campus plan"
+                        class="minimal-hero-image minimal-hero-plan-image"
+                    >
+
+                    <p class="minimal-hero-caption">
+                        Campus overview
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         INTRODUCTION
+    ========================== -->
+
+    <section
+        class="academy-introduction"
+        id="academy-introduction"
+    >
+
+        <div class="container">
+
+            <div class="academy-introduction-grid">
+
+                <div class="academy-introduction-heading">
+
+                    <p class="academy-section-eyebrow">
+                        The Academy
+                    </p>
+
+                    <h2>
+                        Excellence on and off the court
+                    </h2>
+
+                </div>
+
+                <div class="academy-introduction-text">
+
+                    <p>
+                        Kuznetsov Tennis Academy is designed for players who
+                        want to train, compete and develop in a professional
+                        environment.
+                    </p>
+
+                    <p>
+                        Our campus brings together premium tennis courts,
+                        modern fitness and recovery facilities, player
+                        accommodation, dining and recreation in one
+                        exceptional location.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ACADEMY NUMBERS
+    ========================== -->
+
+    <section class="academy-statistics">
+
+        <div class="container">
+
+            <div class="academy-statistics-grid">
+
+                <article class="academy-statistic">
+                    <span class="academy-statistic-number">20</span>
+                    <span class="academy-statistic-label">
+                        Tennis Courts
+                    </span>
+                </article>
+
+                <article class="academy-statistic">
+                    <span class="academy-statistic-number">4</span>
+                    <span class="academy-statistic-label">
+                        Padel Courts
+                    </span>
+                </article>
+
+                <article class="academy-statistic">
+                    <span class="academy-statistic-number">3</span>
+                    <span class="academy-statistic-label">
+                        Court Surfaces
+                    </span>
+                </article>
+
+                <article class="academy-statistic">
+                    <span class="academy-statistic-number">1</span>
+                    <span class="academy-statistic-label">
+                        Complete Campus
+                    </span>
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CAMPUS PLAN
+    ========================== -->
+
+    <section class="academy-campus-plan">
+
+        <div class="container">
+
+            <div class="academy-section-header academy-section-header-center">
+
+                <p class="academy-section-eyebrow">
+                    Explore the Campus
+                </p>
+
+                <h2>
+                    Everything in one destination
+                </h2>
+
+                <p>
+                    Our academy campus has been carefully designed to create
+                    an ideal environment for training, recovery and daily life.
+                </p>
+
+            </div>
+
+            <div class="academy-plan-card">
+
+                <img
+                    src="{% static 'pages/images/academy/academy-plan.jpeg' %}"
+                    alt="Kuznetsov Tennis Academy campus plan"
+                    class="academy-plan-image"
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         COURT FACILITIES
+    ========================== -->
+
+    <section
+        class="academy-facilities"
+        id="academy-facilities"
+    >
+
+        <div class="container">
+
+            <div class="academy-section-header">
+
+                <div>
+
+                    <p class="academy-section-eyebrow">
+                        Tennis Facilities
+                    </p>
+
+                    <h2>
+                        Train on every surface
+                    </h2>
+
+                </div>
+
+                <p class="academy-section-summary">
+                    Develop a complete game across indoor hard courts,
+                    outdoor hard courts, European-style clay and natural
+                    grass.
+                </p>
+
+            </div>
+
+
+            <div class="academy-facility-grid">
+
+                <!-- Indoor hard courts -->
+
+                <article class="academy-facility-card academy-facility-large">
+
+                    <img
+                        src="{% static 'pages/images/academy/indoor-hard-courts.jpeg' %}"
+                        alt="Indoor hard tennis courts"
+                        class="academy-facility-image"
+                    >
+
+                    <div class="academy-facility-overlay"></div>
+
+                    <div class="academy-facility-content">
+
+                        <span class="academy-facility-number">
+                            01
+                        </span>
+
+                        <div>
+
+                            <p class="academy-facility-type">
+                                Year-round training
+                            </p>
+
+                            <h3>
+                                Indoor Hard Courts
+                            </h3>
+
+                            <p>
+                                Eight professional indoor courts for
+                                uninterrupted training in every season.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Outdoor hard courts -->
+
+                <article class="academy-facility-card">
+
+                    <img
+                        src="{% static 'pages/images/academy/outdoor-hard-courts.jpeg' %}"
+                        alt="Outdoor hard tennis courts"
+                        class="academy-facility-image"
+                    >
+
+                    <div class="academy-facility-overlay"></div>
+
+                    <div class="academy-facility-content">
+
+                        <span class="academy-facility-number">
+                            02
+                        </span>
+
+                        <div>
+
+                            <p class="academy-facility-type">
+                                Competition courts
+                            </p>
+
+                            <h3>
+                                Outdoor Hard Courts
+                            </h3>
+
+                            <p>
+                                Five outdoor courts built for training,
+                                matches and academy tournaments.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Clay courts -->
+
+                <article class="academy-facility-card">
+
+                    <img
+                        src="{% static 'pages/images/academy/clay-courts.jpeg' %}"
+                        alt="Outdoor clay tennis courts"
+                        class="academy-facility-image"
+                    >
+
+                    <div class="academy-facility-overlay"></div>
+
+                    <div class="academy-facility-content">
+
+                        <span class="academy-facility-number">
+                            03
+                        </span>
+
+                        <div>
+
+                            <p class="academy-facility-type">
+                                European tradition
+                            </p>
+
+                            <h3>
+                                Clay Courts
+                            </h3>
+
+                            <p>
+                                Six clay courts designed for movement,
+                                endurance and point construction.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Grass court -->
+
+                <article class="academy-facility-card">
+
+                    <img
+                        src="{% static 'pages/images/academy/grass-court.jpeg' %}"
+                        alt="Natural grass tennis court"
+                        class="academy-facility-image"
+                    >
+
+                    <div class="academy-facility-overlay"></div>
+
+                    <div class="academy-facility-content">
+
+                        <span class="academy-facility-number">
+                            04
+                        </span>
+
+                        <div>
+
+                            <p class="academy-facility-type">
+                                Classic tennis
+                            </p>
+
+                            <h3>
+                                Grass Court
+                            </h3>
+
+                            <p>
+                                A premium natural grass court for developing
+                                fast-court movement and attacking tennis.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Padel courts -->
+
+                <article class="academy-facility-card academy-facility-large">
+
+                    <img
+                        src="{% static 'pages/images/academy/padel-courts.jpeg' %}"
+                        alt="Outdoor padel courts"
+                        class="academy-facility-image"
+                    >
+
+                    <div class="academy-facility-overlay"></div>
+
+                    <div class="academy-facility-content">
+
+                        <span class="academy-facility-number">
+                            05
+                        </span>
+
+                        <div>
+
+                            <p class="academy-facility-type">
+                                Modern racquet sport
+                            </p>
+
+                            <h3>
+                                Padel Courts
+                            </h3>
+
+                            <p>
+                                Four outdoor padel courts for training,
+                                competition and social play.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CAMPUS EXPERIENCE
+    ========================== -->
+
+    <section class="academy-experience">
+
+        <div class="container">
+
+            <div class="academy-section-header">
+
+                <div>
+
+                    <p class="academy-section-eyebrow">
+                        Beyond Tennis
+                    </p>
+
+                    <h2>
+                        A complete player experience
+                    </h2>
+
+                </div>
+
+                <p class="academy-section-summary">
+                    Everything players need to live, recover and enjoy
+                    academy life without leaving the campus.
+                </p>
+
+            </div>
+
+
+            <div class="academy-experience-grid">
+
+                <!-- Pool -->
+
+                <article class="academy-experience-card">
+
+                    <div class="academy-experience-image-wrapper">
+
+                        <img
+                            src="{% static 'pages/images/academy/swimming-pool.jpeg' %}"
+                            alt="Academy swimming pool"
+                            class="academy-experience-image"
+                        >
+
+                    </div>
+
+                    <div class="academy-experience-content">
+
+                        <span>Recovery</span>
+
+                        <h3>
+                            Swimming Pool
+                        </h3>
+
+                        <p>
+                            A relaxing space for recovery, conditioning
+                            and time away from the court.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Dormitory -->
+
+                <article class="academy-experience-card">
+
+                    <div class="academy-experience-image-wrapper">
+
+                        <img
+                            src="{% static 'pages/images/academy/player-dormitory.jpeg' %}"
+                            alt="Academy player dormitory"
+                            class="academy-experience-image"
+                        >
+
+                    </div>
+
+                    <div class="academy-experience-content">
+
+                        <span>Accommodation</span>
+
+                        <h3>
+                            Player Residence
+                        </h3>
+
+                        <p>
+                            Comfortable on-campus accommodation designed
+                            specifically for academy players.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Restaurant -->
+
+                <article class="academy-experience-card">
+
+                    <div class="academy-experience-image-wrapper">
+
+                        <img
+                            src="{% static 'pages/images/academy/indoor-restaurant.jpg' %}"
+                            alt="Academy indoor restaurant"
+                            class="academy-experience-image"
+                        >
+
+                    </div>
+
+                    <div class="academy-experience-content">
+
+                        <span>Dining</span>
+
+                        <h3>
+                            Academy Restaurant
+                        </h3>
+
+                        <p>
+                            Fresh meals and a refined environment for
+                            players, coaches and academy guests.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Outdoor bar -->
+
+                <article class="academy-experience-card">
+
+                    <div class="academy-experience-image-wrapper">
+
+                        <img
+                            src="{% static 'pages/images/academy/outdoor-bar.jpeg' %}"
+                            alt="Academy outdoor bar"
+                            class="academy-experience-image"
+                        >
+
+                    </div>
+
+                    <div class="academy-experience-content">
+
+                        <span>Social</span>
+
+                        <h3>
+                            Outdoor Bar
+                        </h3>
+
+                        <p>
+                            A casual meeting place for refreshments,
+                            conversation and post-match relaxation.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CALL TO ACTION
+    ========================== -->
+
+    <section class="academy-call-to-action">
+
+        <div class="academy-call-to-action-decoration">
+            KTA
+        </div>
+
+        <div class="container academy-call-to-action-content">
+
+            <p class="academy-section-eyebrow">
+                Begin Your Journey
+            </p>
+
+            <h2>
+                Experience the Kuznetsov Tennis Academy
+            </h2>
+
+            <p>
+                Reserve a court and become part of an environment created
+                for players who expect more from their training.
+            </p>
+
+            <a
+                href="{% url 'create_reservation' %}"
+                class="academy-button academy-button-gold"
+            >
+                Make a Reservation
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

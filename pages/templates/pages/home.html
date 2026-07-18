@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
 Home | Kuznetsov Tennis Academy
@@ -6,37 +7,418 @@ Home | Kuznetsov Tennis Academy
 
 {% block content %}
 
-<section class="hero-section">
+<main class="home-page">
 
-    <div class="container text-center">
+    <!-- =========================
+         HERO
+    ========================== -->
 
-        <p class="hero-eyebrow">
-            Tradition · Discipline · Excellence
-        </p>
+    <section class="home-hero">
 
-        <h1 class="hero-title">
-            Kuznetsov Tennis Academy
-        </h1>
+        <div class="container">
 
-        <p class="hero-description">
-            A premium tennis experience designed for players who expect more
-            from their training, competition, and development.
-        </p>
+            <div class="minimal-hero-grid">
 
-        <div class="mt-4">
+                <div class="minimal-hero-copy">
 
-            <a href="#" class="btn hero-primary-button">
-                Join the Academy
-            </a>
+                    <p class="minimal-hero-eyebrow">
+                        Kuznetsov Tennis Academy
+                    </p>
 
-            <a href="#" class="btn hero-secondary-button">
-                Reserve a Court
-            </a>
+                    <h1 class="minimal-hero-title">
+                        Train with purpose.
+                        <span>Grow with confidence.</span>
+                    </h1>
+
+                    <p class="minimal-hero-description">
+                        Professional coaching, premium courts and a complete
+                        academy environment designed for ambitious players.
+                    </p>
+
+                    <div class="minimal-hero-actions">
+
+                        <a
+                            href="{% url 'academy' %}"
+                            class="home-button home-button-primary"
+                        >
+                            Explore the Academy
+                        </a>
+
+                        <a
+                            href="{% url 'create_reservation' %}"
+                            class="home-button home-button-secondary"
+                        >
+                            Reserve a Court
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="minimal-hero-media">
+
+                    <img
+                        src="{% static 'pages/images/academy/main-entrance.jpeg' %}"
+                        alt="Main entrance of Kuznetsov Tennis Academy"
+                        class="minimal-hero-image"
+                    >
+
+                    <p class="minimal-hero-caption">
+                        Kuznetsov Tennis Academy
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+
+    <!-- =========================
+         INTRODUCTION
+    ========================== -->
+
+    <section class="home-introduction" id="home-introduction">
+
+        <div class="container">
+
+            <div class="home-introduction-grid">
+
+                <div class="home-introduction-heading">
+
+                    <p class="home-section-eyebrow">
+                        Welcome to KTA
+                    </p>
+
+                    <h2>
+                        More than an academy
+                    </h2>
+
+                </div>
+
+                <div class="home-introduction-content">
+
+                    <p class="home-introduction-lead">
+                        Kuznetsov Tennis Academy combines elite training,
+                        exceptional facilities and a complete player
+                        experience in one destination.
+                    </p>
+
+                    <p>
+                        Players train across multiple court surfaces,
+                        develop through structured programs and become part
+                        of an environment built around discipline,
+                        professionalism and long-term improvement.
+                    </p>
+
+                    <a href="{% url 'academy' %}" class="home-text-link">
+                        Discover our facilities
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ACADEMY HIGHLIGHTS
+    ========================== -->
+
+    <section class="home-highlights">
+
+        <div class="container">
+
+            <div class="home-section-heading home-section-heading-center">
+
+                <p class="home-section-eyebrow">
+                    The KTA Experience
+                </p>
+
+                <h2>
+                    Designed for complete development
+                </h2>
+
+                <p>
+                    Every part of the academy supports the player’s
+                    development, from daily training to competition,
+                    recovery and academy life.
+                </p>
+
+            </div>
+
+
+            <div class="home-highlight-grid">
+
+                <article class="home-highlight-card">
+
+                    <span class="home-highlight-number">
+                        01
+                    </span>
+
+                    <div class="home-highlight-icon">
+                        T
+                    </div>
+
+                    <h3>
+                        Elite Training
+                    </h3>
+
+                    <p>
+                        Structured training programs focused on technique,
+                        movement, fitness, tactics and match performance.
+                    </p>
+
+                </article>
+
+
+                <article class="home-highlight-card">
+
+                    <span class="home-highlight-number">
+                        02
+                    </span>
+
+                    <div class="home-highlight-icon">
+                        C
+                    </div>
+
+                    <h3>
+                        Premium Courts
+                    </h3>
+
+                    <p>
+                        Train year-round on indoor hard, outdoor hard,
+                        clay and natural grass tennis courts.
+                    </p>
+
+                </article>
+
+
+                <article class="home-highlight-card">
+
+                    <span class="home-highlight-number">
+                        03
+                    </span>
+
+                    <div class="home-highlight-icon">
+                        P
+                    </div>
+
+                    <h3>
+                        Player Lifestyle
+                    </h3>
+
+                    <p>
+                        Accommodation, dining, recovery facilities and
+                        social spaces located directly on the academy campus.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NUMBERS
+    ========================== -->
+
+    <section class="home-statistics">
+
+        <div class="container">
+
+            <div class="home-statistics-grid">
+
+                <article class="home-statistic">
+
+                    <span class="home-statistic-number">
+                        20
+                    </span>
+
+                    <span class="home-statistic-label">
+                        Tennis Courts
+                    </span>
+
+                </article>
+
+
+                <article class="home-statistic">
+
+                    <span class="home-statistic-number">
+                        4
+                    </span>
+
+                    <span class="home-statistic-label">
+                        Padel Courts
+                    </span>
+
+                </article>
+
+
+                <article class="home-statistic">
+
+                    <span class="home-statistic-number">
+                        3
+                    </span>
+
+                    <span class="home-statistic-label">
+                        Tennis Surfaces
+                    </span>
+
+                </article>
+
+
+                <article class="home-statistic">
+
+                    <span class="home-statistic-number">
+                        365
+                    </span>
+
+                    <span class="home-statistic-label">
+                        Days of Training
+                    </span>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURED EXPERIENCE
+    ========================== -->
+
+    <section class="home-feature">
+
+        <div class="container">
+
+            <div class="home-feature-grid">
+
+                <div class="home-feature-image-wrapper">
+
+                    <img
+                        src="{% static 'pages/images/academy/main-entrance.jpeg' %}"
+                        alt="Entrance to Kuznetsov Tennis Academy"
+                        class="home-feature-image"
+                    >
+
+                    <div class="home-feature-image-label">
+                        Kuznetsov Tennis Academy
+                    </div>
+
+                </div>
+
+
+                <div class="home-feature-content">
+
+                    <p class="home-section-eyebrow">
+                        A Complete Destination
+                    </p>
+
+                    <h2>
+                        Train, compete and live in one place
+                    </h2>
+
+                    <p>
+                        The academy campus is designed to remove distractions
+                        and give players everything they need to focus on
+                        development.
+                    </p>
+
+                    <p>
+                        Professional courts, player accommodation, dining,
+                        recreation and recovery facilities create a complete
+                        environment for ambitious athletes.
+                    </p>
+
+                    <a
+                        href="{% url 'academy' %}"
+                        class="home-button home-button-dark"
+                    >
+                        View the Academy
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         RESERVATION SECTION
+    ========================== -->
+
+    <section class="home-reservation">
+
+        <div class="home-reservation-decoration">
+            KTA
+        </div>
+
+        <div class="container home-reservation-content">
+
+            <p class="home-section-eyebrow">
+                Your Court Awaits
+            </p>
+
+            <h2>
+                Ready to play?
+            </h2>
+
+            <p>
+                Select your preferred court, date and time through our
+                online reservation system.
+            </p>
+
+            {% if user.is_authenticated %}
+
+                <a
+                    href="{% url 'create_reservation' %}"
+                    class="home-button home-button-gold"
+                >
+                    Make a Reservation
+                </a>
+
+            {% else %}
+
+                <div class="home-reservation-buttons">
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="home-button home-button-gold"
+                    >
+                        Log In to Reserve
+                    </a>
+
+                    <a
+                        href="{% url 'register' %}"
+                        class="home-button home-button-outline-light"
+                    >
+                        Create Account
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</main>
 
 {% endblock %}
