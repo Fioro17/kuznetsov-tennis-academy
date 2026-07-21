@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pages',
     'reservations',
+    'coaches',
     'accounts.apps.AccountsConfig',
     'django_bootstrap5',
 ]

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ coach }} | Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="coach-detail-section">
+
+    <div class="container">
+
+        <div class="coach-detail-layout">
+
+            <div class="coach-detail-image-wrapper">
+
+                <img
+                    src="{{ coach.profile_picture.url }}"
+                    alt="{{ coach }}"
+                    class="coach-detail-image"
+                >
+
+            </div>
+
+            <div class="coach-detail-content">
+
+                <p class="hero-eyebrow">
+                    {{ coach.title }}
+                </p>
+
+                <h1 class="hero-title">
+                    {{ coach.user.get_full_name|default:coach.user.username }}
+                </h1>
+
+                <p class="coach-detail-specialty">
+                    {{ coach.get_specialty_display }}
+                </p>
+
+                <div class="coach-detail-statistics">
+
+                    <div class="coach-stat">
+
+                        <span class="coach-stat-value">
+                            {{ coach.years_of_experience }}
+                        </span>
+
+                        <span class="coach-stat-label">
+                            Years Experience
+                        </span>
+
+                    </div>
+
+                    {% if coach.utr_rating %}
+
+                        <div class="coach-stat">
+
+                            <span class="coach-stat-value">
+                                {{ coach.utr_rating }}
+                            </span>
+
+                            <span class="coach-stat-label">
+                                UTR Rating
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+                    <div class="coach-stat">
+
+                        <span class="coach-stat-value">
+                            ${{ coach.hourly_rate }}
+                        </span>
+
+                        <span class="coach-stat-label">
+                            Per Hour
+                        </span>
+
+                    </div>
+
+                </div>
+
+                {% if coach.nationality %}
+
+                    <p>
+                        <strong>Nationality:</strong>
+                        {{ coach.nationality }}
+                    </p>
+
+                {% endif %}
+
+                {% if coach.certifications %}
+
+                    <p>
+                        <strong>Certifications:</strong>
+                        {{ coach.certifications }}
+                    </p>
+
+                {% endif %}
+
+                <div class="coach-biography">
+
+                    <h2>
+                        About the Coach
+                    </h2>
+
+                    <p>
+                        {{ coach.biography }}
+                    </p>
+
+                </div>
+
+                <div class="coach-program-section">
+
+                    <h2>
+                        Programs Offered
+                    </h2>
+
+                    <div class="coach-program-list">
+
+                        {% for program in coach.programs.all %}
+
+                            <div class="coach-program-item">
+
+                                <h3>
+                                    {{ program.name }}
+                                </h3>
+
+                                <p>
+                                    {{ program.description }}
+                                </p>
+
+                                <span>
+                                    {{ program.duration_minutes }} minutes
+                                </span>
+
+                            </div>
+
+                        {% empty %}
+
+                            <p>
+                                No programs are currently assigned.
+                            </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <a
+                    href="#"
+                    class="btn hero-primary-button"
+                >
+                    Book a Lesson
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

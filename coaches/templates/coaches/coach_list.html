@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Coaches | Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="coach-list-section">
+
+    <div class="container">
+
+        <div class="text-center coach-page-heading">
+
+            <p class="hero-eyebrow">
+                Excellence in Coaching
+            </p>
+
+            <h1 class="hero-title">
+                Meet Our Coaches
+            </h1>
+
+            <p class="coach-page-description">
+                Train with experienced professionals dedicated to helping
+                every player reach their full potential.
+            </p>
+
+        </div>
+
+        <div class="coach-grid">
+
+            {% for coach in coaches %}
+
+                <article class="coach-card">
+
+                    <div class="coach-card-image-wrapper">
+
+                        <img
+                            src="{{ coach.profile_picture.url }}"
+                            alt="{{ coach }}"
+                            class="coach-card-image"
+                        >
+
+                    </div>
+
+                    <div class="coach-card-content">
+
+                        <p class="coach-card-title">
+                            {{ coach.title }}
+                        </p>
+
+                        <h2 class="coach-card-name">
+                            {{ coach.user.get_full_name|default:coach.user.username }}
+                        </h2>
+
+                        <p class="coach-card-specialty">
+                            {{ coach.get_specialty_display }}
+                        </p>
+
+                        <div class="coach-card-details">
+
+                            <span>
+                                {{ coach.years_of_experience }}
+                                years of experience
+                            </span>
+
+                            {% if coach.utr_rating %}
+
+                                <span>
+                                    UTR {{ coach.utr_rating }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                        <p class="coach-card-price">
+                            ${{ coach.hourly_rate }} per hour
+                        </p>
+
+                        <div class="coach-card-programs">
+
+                            {% for program in coach.programs.all|slice:":3" %}
+
+                                <span class="coach-program-badge">
+                                    {{ program.name }}
+                                </span>
+
+                            {% empty %}
+
+                                <span>
+                                    Programs coming soon
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                        <a
+                            href="{% url 'coach_detail' coach.id %}"
+                            class="btn hero-primary-button"
+                        >
+                            View Profile
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="text-center">
+
+                    <p>
+                        No coaches are currently available.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
