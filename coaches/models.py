@@ -1,19 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from reservations.models import Court, Reservation
 
 
 class Coach(models.Model):
-
-    SPECIALTIES = [
-        ('development', 'Player Development'),
-        ('high_performance', 'High Performance'),
-        ('junior', 'Junior Tennis'),
-        ('doubles', 'Doubles'),
-        ('fitness', 'Fitness and Conditioning'),
-        ('padel', 'Padel'),
-    ]
 
     user = models.OneToOneField(
         User,
@@ -33,8 +23,7 @@ class Coach(models.Model):
     )
 
     specialty = models.CharField(
-        max_length=30,
-        choices=SPECIALTIES
+        max_length=100,
     )
 
     biography = models.TextField()
@@ -79,6 +68,9 @@ class Coach(models.Model):
     is_featured = models.BooleanField(
         default=False
     )
+
+    class Meta:
+        ordering = ['user__first_name', 'user__last_name']
 
     def __str__(self):
         return self.user.get_full_name() or self.user.username
@@ -169,7 +161,7 @@ class LessonBooking(models.Model):
 
     reservation = models.OneToOneField(
         Reservation,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='lesson_booking',
         null=True,
         blank=True

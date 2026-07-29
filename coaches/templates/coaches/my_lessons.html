@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Lessons | Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <p class="text-uppercase small text-muted mb-1">
+                Training Schedule
+            </p>
+
+            <h1>
+                My Lessons
+            </h1>
+        </div>
+
+        <a
+            href="{% url 'coaches:coach_list' %}"
+            class="btn btn-dark"
+        >
+            Book Another Lesson
+        </a>
+
+    </div>
+
+    {% if lessons %}
+
+        <div class="row g-4">
+
+            {% for lesson in lessons %}
+
+                <div class="col-lg-6">
+
+                    <div class="card h-100 shadow-sm border-0">
+
+                        <div class="card-body p-4">
+
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                <div>
+
+                                    <h4 class="mb-1">
+                                        {{ lesson.program.name }}
+                                    </h4>
+
+                                    <p class="text-muted mb-0">
+                                        With {{ lesson.coach }}
+                                    </p>
+
+                                </div>
+
+                                {% if lesson.status == 'confirmed' %}
+
+                                    <span class="badge text-bg-success">
+                                        Confirmed
+                                    </span>
+
+                                {% elif lesson.status == 'completed' %}
+
+                                    <span class="badge text-bg-secondary">
+                                        Completed
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge text-bg-danger">
+                                        Cancelled
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                            <hr>
+
+                            <p class="mb-2">
+                                <strong>Date:</strong>
+                                {{ lesson.date|date:"F j, Y" }}
+                            </p>
+
+                            <p class="mb-2">
+                                <strong>Time:</strong>
+                                {{ lesson.start_time|time:"g:i A" }}
+                                –
+                                {{ lesson.end_time|time:"g:i A" }}
+                            </p>
+
+                            <p class="mb-2">
+                                <strong>Duration:</strong>
+                                {{ lesson.program.duration_minutes }} minutes
+                            </p>
+
+                            {% if lesson.reservation %}
+
+                                <p class="mb-2">
+                                    <strong>Court:</strong>
+                                    Court {{ lesson.reservation.court.number }}
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Surface:</strong>
+                                    {{ lesson.reservation.court.get_surface_display }}
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Location:</strong>
+                                    {{ lesson.reservation.court.get_location_display }}
+                                </p>
+
+                            {% else %}
+
+                                <p class="text-muted mb-2">
+                                    No court is currently assigned.
+                                </p>
+
+                            {% endif %}
+
+                            {% if lesson.notes %}
+
+                                <p class="mt-3 mb-0">
+                                    <strong>Notes:</strong>
+                                    {{ lesson.notes }}
+                                </p>
+
+                            {% endif %}
+
+                            {% if lesson.status == 'confirmed' %}
+                            <form
+                                method="post"
+                                action="{% url 'coaches:cancel_lesson' lesson.id %}"
+                                class="mt-4"
+                                onsubmit="return confirm('Are you sure you want to cancel this lesson?');"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-danger"
+                                >
+                                    Cancel Lesson
+                                </button>
+
+                            </form>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="text-center py-5">
+
+            <h3>
+                You have no lessons booked
+            </h3>
+
+            <p class="text-muted">
+                Browse our coaches and choose a lesson program.
+            </p>
+
+            <a
+                href="{% url 'coaches:coach_list' %}"
+                class="btn btn-dark mt-2"
+            >
+                View Coaches
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

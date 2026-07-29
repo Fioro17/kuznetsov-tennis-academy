@@ -1,5 +1,8 @@
+from datetime import datetime, time, timedelta
+
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 from .models import Court, Reservation
 
@@ -37,7 +40,7 @@ class ReservationForm(forms.ModelForm):
                     'step': '1800',
                     'min': '08:00',
                     'max': '21:30',
-                    }
+                }
             ),
 
             'end_time': forms.TimeInput(
@@ -47,12 +50,21 @@ class ReservationForm(forms.ModelForm):
                     'step': '1800',
                     'min': '08:30',
                     'max': '22:00',
-                    }
+                }
             ),
         }
 
     def __init__(self, *args, **kwargs):
+
         super().__init__(*args, **kwargs)
+
+        today = timezone.localdate()
+        latest_booking_date = today + timedelta(days=14)
+
+        self.fields['date'].widget.attrs.update({
+            'min': today.isoformat(),
+            'max': latest_booking_date.isoformat(),
+        })
 
         active_courts = Court.objects.filter(
             is_active=True
@@ -131,76 +143,140 @@ class ReservationForm(forms.ModelForm):
         self.fields['court'].choices = grouped_choices
 
     def clean_start_time(self):
-        start_time = self.cleaned_data['start_time']
 
-        if start_time.minute not in [0, 30]:
+        start_time = self.cleaned_data.get('start_time')
+
+        if not start_time:
+            return start_time
+
+        if start_time.minute not in (0, 30):
+
             raise ValidationError(
                 'Start time must be on the hour or half hour.'
+            )
+
+        if start_time.second != 0:
+
+            raise ValidationError(
+                'Please select a valid 30-minute time slot.'
             )
 
         return start_time
 
     def clean_end_time(self):
-        end_time = self.cleaned_data['end_time']
 
-        if end_time.minute not in [0, 30]:
+        end_time = self.cleaned_data.get('end_time')
+
+        if not end_time:
+            return end_time
+
+        if end_time.minute not in (0, 30):
+
             raise ValidationError(
                 'End time must be on the hour or half hour.'
+            )
+
+        if end_time.second != 0:
+
+            raise ValidationError(
+                'Please select a valid 30-minute time slot.'
             )
 
         return end_time
 
     def clean(self):
+
         cleaned_data = super().clean()
+
+        reservation_date = cleaned_data.get('date')
         start_time = cleaned_data.get('start_time')
         end_time = cleaned_data.get('end_time')
-        
-        if not start_time or not end_time:
-            return cleaned_data
-        
-        opening_time = start_time.replace(
-            hour=8,
-            minute=0,
-            second=0,
-            microsecond=0
-            )
 
-        closing_time = end_time.replace(
-            hour=22,
-            minute=0,
-            second=0,
-            microsecond=0
-            )
+        if reservation_date:
+
+            today = timezone.localdate()
+            latest_booking_date = today + timedelta(days=14)
+
+            if reservation_date < today:
+
+                self.add_error(
+                    'date',
+                    'You cannot make a reservation in the past.'
+                )
+
+            elif reservation_date > latest_booking_date:
+
+                self.add_error(
+                    'date',
+                    'Reservations can only be made up to 14 days in advance.'
+                )
+
+        if not reservation_date or not start_time or not end_time:
+            return cleaned_data
+
+        opening_time = time(8, 0)
+        closing_time = time(22, 0)
 
         if start_time < opening_time:
-            raise ValidationError(
+
+            self.add_error(
+                'start_time',
                 'Reservations cannot begin before 8:00 AM.'
             )
 
         if end_time > closing_time:
-            raise ValidationError(
+
+            self.add_error(
+                'end_time',
                 'Reservations must end by 10:00 PM.'
+            )
+
+        if end_time <= start_time:
+
+            self.add_error(
+                'end_time',
+                'The end time must be later than the start time.'
+            )
+
+            return cleaned_data
+
+        reservation_datetime = timezone.make_aware(
+            datetime.combine(
+                reservation_date,
+                start_time
+            )
+        )
+
+        if reservation_datetime <= timezone.now():
+
+            self.add_error(
+                'start_time',
+                'Reservations must be made for a future date and time.'
             )
 
         start_minutes = (
             start_time.hour * 60
             + start_time.minute
-            )
+        )
 
         end_minutes = (
             end_time.hour * 60
             + end_time.minute
-            )
+        )
 
         duration = end_minutes - start_minutes
 
         if duration < 30:
-            raise ValidationError(
+
+            self.add_error(
+                'end_time',
                 'A reservation must be at least 30 minutes.'
             )
 
-        if duration > 120:
-            raise ValidationError(
+        elif duration > 120:
+
+            self.add_error(
+                'end_time',
                 'A reservation cannot be longer than 2 hours.'
             )
 

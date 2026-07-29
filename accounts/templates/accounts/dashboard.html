@@ -19,6 +19,7 @@ Dashboard | Kuznetsov Tennis Academy
             >
 
             <div>
+
                 <p class="hero-eyebrow">
                     Member Dashboard
                 </p>
@@ -32,11 +33,15 @@ Dashboard | Kuznetsov Tennis Academy
                     ·
                     {{ user_profile.get_player_level_display }}
                 </p>
+
             </div>
 
         </div>
 
+
         <div class="row g-4 mt-3">
+
+            <!-- Profile Card -->
 
             <div class="col-md-4">
 
@@ -61,6 +66,9 @@ Dashboard | Kuznetsov Tennis Academy
 
             </div>
 
+
+            <!-- Reservations Card -->
+
             <div class="col-md-4">
 
                 <div class="dashboard-card">
@@ -68,54 +76,90 @@ Dashboard | Kuznetsov Tennis Academy
                     <h2>
                         Reservations
                     </h2>
-
-                    {% if upcoming_reservations %}
-
-                        {% for reservation in upcoming_reservations %}
-
-                            <div class="dashboard-reservation">
-
-                                <strong>
-                                    {{ reservation.court }}
-                                </strong>
-
-                                <p>
-                                    {{ reservation.date }}
-                                    <br>
-                                    {{ reservation.start_time }}
-                                    –
-                                    {{ reservation.end_time }}
-                                </p>
-
-                            </div>
-
-                        {% endfor %}
+                    
+                    <p>
+                        View and manage your reservations.
+                    </p>
 
                         <a
                             href="{% url 'my_reservations' %}"
                             class="btn hero-secondary-button"
                         >
-                            View All
+                            View My Reservations
                         </a>
 
-                    {% else %}
+                        <a  
+                            href="{% url 'create_reservation' %}"
+                            class="btn hero-primary-button"
+                        >
+                            Reserve a Court
+                        </a>
 
-                        <p>
-                            You do not have any upcoming reservations yet.
-                        </p>
+                </div>
 
-                    {% endif %}
+            </div>
+
+
+            <!-- Lessons Card -->
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        My Lessons
+                    </h2>
+
+                    <p>
+                        View your coaching sessions, assigned courts, and lesson history.
+                    </p>
 
                     <a
-                        href="{% url 'create_reservation' %}"
+                        href="{% url 'coaches:my_lessons' %}"
+                        class="btn hero-secondary-button"
+                    >
+                        View My Lessons
+                    </a>
+
+                    <a
+                        href="{% url 'coaches:coach_list' %}"
                         class="btn hero-primary-button"
                     >
-                        Reserve a Court
+                        Book a Lesson
                     </a>
 
                 </div>
 
             </div>
+
+
+            <!-- Coaches Card -->
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Coaches
+                    </h2>
+
+                    <p>
+                        Explore the academy coaching team and available lesson programs.
+                    </p>
+
+                    <a
+                        href="{% url 'coaches:coach_list' %}"
+                        class="btn hero-secondary-button"
+                    >
+                        View Coaches
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Tournaments Card -->
 
             <div class="col-md-4">
 
@@ -140,9 +184,67 @@ Dashboard | Kuznetsov Tennis Academy
 
             </div>
 
-        </div>
 
-        
+            <!-- Account Card -->
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Account
+                    </h2>
+
+                    <p>
+                        Manage your profile information or securely leave your account.
+                    </p>
+
+                    <a
+                        href="{% url 'edit_profile' %}"
+                        class="btn hero-secondary-button"
+                    >
+                        Edit Profile
+                    </a>
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn hero-primary-button"
+                    >
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% if is_coach %}
+
+            <div class="col-md-4">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Coach Schedule
+                    </h2>
+
+                    <p>
+                        View your upcoming lessons, players, assigned courts, and session times.
+                    </p>
+
+                    <a
+                        href="{% url 'coaches:coach_schedule' %}"
+                        class="btn hero-primary-button"
+                    >       
+                        View Schedule
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
 
     </div>
 

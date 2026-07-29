@@ -43,12 +43,19 @@ class Court(models.Model):
     )
 
     def clean(self):
-        if self.court_type == 'padel' and self.surface != 'hard':
+
+        super().clean()
+
+        if (
+            self.court_type == 'padel'
+            and self.surface != 'hard'
+        ):
             raise ValidationError(
                 'Padel courts can only have hard surfaces.'
             )
 
     def __str__(self):
+
         return (
             f'{self.get_location_display()} '
             f'{self.get_court_type_display()} '
@@ -94,12 +101,46 @@ class Reservation(models.Model):
 
     def clean(self):
 
+        super().clean()
+
+        if (
+            not self.date
+            or not self.start_time
+            or not self.end_time
+        ):
+            return
+
         if self.end_time <= self.start_time:
             raise ValidationError(
                 'End time must be later than start time.'
             )
 
+        if not self.court_id:
+            return
+
+        overlapping_reservations = Reservation.objects.filter(
+            court=self.court,
+            date=self.date,
+            status='active',
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time
+        )
+
+        if self.pk:
+            overlapping_reservations = (
+                overlapping_reservations.exclude(
+                    pk=self.pk
+                )
+            )
+
+        if overlapping_reservations.exists():
+            raise ValidationError(
+                'This court is already reserved during '
+                'the selected time.'
+            )
+
     def __str__(self):
+
         return (
             f'{self.user.username} reserved '
             f'{self.court} '

@@ -105,4 +105,34 @@ def dashboard(request):
         context
     )
 
+@login_required
+def dashboard(request):
+
+    user_profile = request.user.profile
+
+    upcoming_reservations = Reservation.objects.filter(
+        user=request.user,
+        status='active',
+        lesson_booking__isnull=True
+    ).order_by(
+        'date',
+        'start_time'
+    )[:3]
+
+    is_coach = hasattr(
+        request.user,
+        'coach_profile'
+    )
+
+    context = {
+        'user_profile': user_profile,
+        'upcoming_reservations': upcoming_reservations,
+        'is_coach': is_coach,
+    }
+
+    return render(
+        request,
+        'accounts/dashboard.html',
+        context
+    )
 

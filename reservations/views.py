@@ -16,8 +16,8 @@ ACADEMY_CLOSING_TIME = time(22, 0)
 SLOT_LENGTH_MINUTES = 30
 
 
-# Parse date
 def parse_selected_date(date_string):
+
     if not date_string:
         return None
 
@@ -31,8 +31,8 @@ def parse_selected_date(date_string):
         return None
 
 
-# Build availability
 def build_court_availability(courts, selected_date):
+
     if not selected_date:
         return []
 
@@ -70,6 +70,7 @@ def build_court_availability(courts, selected_date):
     court_availability = []
 
     for court in courts:
+
         court_reservations = reservations_by_court[
             court.id
         ]
@@ -78,6 +79,7 @@ def build_court_availability(courts, selected_date):
         reserved_slots_count = 0
 
         for reservation in court_reservations:
+
             reserved_periods.append({
                 'start': reservation.start_time.strftime(
                     '%I:%M %p'
@@ -110,9 +112,11 @@ def build_court_availability(courts, selected_date):
         past_slots_count = 0
 
         if selected_date < today:
+
             past_slots_count = total_slots
 
         elif selected_date == today:
+
             opening_minutes = (
                 ACADEMY_OPENING_TIME.hour * 60
                 + ACADEMY_OPENING_TIME.minute
@@ -158,14 +162,24 @@ def build_court_availability(courts, selected_date):
     return court_availability
 
 
-# Create reservation
 @login_required
 def create_reservation(request):
-    selected_date_string = request.GET.get('date', '')
-    selected_court_id = request.GET.get('court', '')
+
+    selected_date_string = request.GET.get(
+        'date',
+        ''
+    )
+
+    selected_court_id = request.GET.get(
+        'court',
+        ''
+    )
 
     if request.method == 'POST':
-        form = ReservationForm(request.POST)
+
+        form = ReservationForm(
+            request.POST
+        )
 
         selected_date_string = request.POST.get(
             'date',
@@ -178,7 +192,11 @@ def create_reservation(request):
         )
 
         if form.is_valid():
-            reservation = form.save(commit=False)
+
+            reservation = form.save(
+                commit=False
+            )
+
             reservation.user = request.user
 
             today = timezone.localdate()
@@ -192,42 +210,67 @@ def create_reservation(request):
                 )
             )
 
+            player_overlap_exists = Reservation.objects.filter(
+                user=request.user,
+                date=reservation.date,
+                status='active',
+                start_time__lt=reservation.end_time,
+                end_time__gt=reservation.start_time
+            ).exists()
+
+            court_overlap_exists = Reservation.objects.filter(
+                court=reservation.court,
+                date=reservation.date,
+                status='active',
+                start_time__lt=reservation.end_time,
+                end_time__gt=reservation.start_time
+            ).exists()
+
             if reservation_is_past:
+
                 form.add_error(
-                    None,
+                    'start_time',
                     'Reservation must be in the future.'
                 )
 
-            else:
-                overlap_exists = (
-                    Reservation.objects.filter(
-                        court=reservation.court,
-                        date=reservation.date,
-                        status='active',
-                        start_time__lt=reservation.end_time,
-                        end_time__gt=reservation.start_time,
-                    ).exists()
+            elif player_overlap_exists:
+
+                form.add_error(
+                    'start_time',
+                    (
+                        'You already have a court reservation '
+                        'or lesson during this time.'
+                    )
                 )
 
-                if overlap_exists:
-                    form.add_error(
-                        None,
-                        'This court is already reserved during that time.'
-                    )
+            elif court_overlap_exists:
 
-                else:
-                    reservation.save()
-
-                    messages.success(
-                        request,
-                        'Your reservation was created successfully.'
+                form.add_error(
+                    'start_time',
+                    (
+                        'This court is already reserved '
+                        'during that time.'
                     )
+                )
 
-                    return redirect(
-                        'my_reservations'
+            else:
+
+                reservation.save()
+
+                messages.success(
+                    request,
+                    (
+                        'Your reservation was created '
+                        'successfully.'
                     )
+                )
+
+                return redirect(
+                    'my_reservations'
+                )
 
     else:
+
         initial_data = {}
 
         if selected_date_string:
@@ -258,6 +301,7 @@ def create_reservation(request):
     )
 
     if selected_date_string and not selected_date:
+
         messages.error(
             request,
             'Please select a valid date.'
@@ -268,6 +312,7 @@ def create_reservation(request):
     selected_court = None
 
     if selected_court_id:
+
         selected_court = courts.filter(
             id=selected_court_id
         ).first()
@@ -294,16 +339,17 @@ def create_reservation(request):
     )
 
 
-# List reservations
 @login_required
 def my_reservations(request):
+
     today = timezone.localdate()
     current_time = timezone.localtime().time()
 
     upcoming_reservations = (
         Reservation.objects.filter(
             user=request.user,
-            status='active'
+            status='active',
+            lesson_booking__isnull=True
         )
         .filter(
             Q(date__gt=today)
@@ -312,7 +358,9 @@ def my_reservations(request):
                 end_time__gt=current_time
             )
         )
-        .select_related('court')
+        .select_related(
+            'court'
+        )
         .order_by(
             'date',
             'start_time'
@@ -321,14 +369,17 @@ def my_reservations(request):
 
     reservation_history = (
         Reservation.objects.filter(
-            user=request.user
+            user=request.user,
+            lesson_booking__isnull=True
         )
         .exclude(
             id__in=upcoming_reservations.values(
                 'id'
             )
         )
-        .select_related('court')
+        .select_related(
+            'court'
+        )
         .order_by(
             '-date',
             '-start_time'
@@ -357,27 +408,33 @@ def my_reservations(request):
     )
 
 
-# Cancel reservation
 @login_required
 def cancel_reservation(
     request,
     reservation_id
 ):
+
     reservation = get_object_or_404(
         Reservation,
         id=reservation_id,
-        user=request.user
+        user=request.user,
+        lesson_booking__isnull=True
     )
 
     if request.method != 'POST':
+
         return redirect(
             'my_reservations'
         )
 
     if reservation.status == 'cancelled':
+
         messages.info(
             request,
-            'This reservation has already been cancelled.'
+            (
+                'This reservation has already '
+                'been cancelled.'
+            )
         )
 
         return redirect(
@@ -392,7 +449,10 @@ def cancel_reservation(
 
     messages.success(
         request,
-        'Your reservation was cancelled successfully.'
+        (
+            'Your reservation was cancelled '
+            'successfully.'
+        )
     )
 
     return redirect(

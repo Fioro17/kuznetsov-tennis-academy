@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}
+Coach Schedule | Kuznetsov Tennis Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <img
+                src="{{ coach.profile_picture.url }}"
+                alt="{{ coach }} profile picture"
+                class="dashboard-profile-picture"
+            >
+
+            <div>
+
+                <p class="hero-eyebrow">
+                    Coaching Portal
+                </p>
+
+                <h1>
+                    My Schedule
+                </h1>
+
+                <p>
+                    {{ coach }}
+                    ·
+                    {{ coach.title }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="mt-5">
+
+            {% if upcoming_lessons %}
+
+                <div class="row g-4">
+
+                    {% for lesson in upcoming_lessons %}
+
+                        <div class="col-lg-6">
+
+                            <div class="dashboard-card h-100">
+
+                                <div class="d-flex justify-content-between align-items-start">
+
+                                    <div>
+
+                                        <p class="hero-eyebrow">
+                                            {{ lesson.date|date:"l, F j, Y" }}
+                                        </p>
+
+                                        <h2>
+                                            {{ lesson.program.name }}
+                                        </h2>
+
+                                    </div>
+
+                                    <span class="badge text-bg-success">
+                                        {{ lesson.get_status_display }}
+                                    </span>
+
+                                </div>
+
+                                <p>
+                                    <strong>Player:</strong>
+
+                                    {{ lesson.player.get_full_name|default:lesson.player.username }}
+                                </p>
+
+                                <p>
+                                    <strong>Time:</strong>
+
+                                    {{ lesson.start_time|time:"g:i A" }}
+                                    –
+                                    {{ lesson.end_time|time:"g:i A" }}
+                                </p>
+
+                                <p>
+                                    <strong>Duration:</strong>
+
+                                    {{ lesson.program.duration_minutes }}
+                                    minutes
+                                </p>
+
+                                {% if lesson.reservation %}
+
+                                    <p>
+                                        <strong>Court:</strong>
+
+                                        Court {{ lesson.reservation.court.number }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Location:</strong>
+
+                                        {{ lesson.reservation.court.get_location_display }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Surface:</strong>
+
+                                        {{ lesson.reservation.court.get_surface_display }}
+                                    </p>
+
+                                {% else %}
+
+                                    <p>
+                                        No court is currently assigned.
+                                    </p>
+
+                                {% endif %}
+
+                                {% if lesson.notes %}
+
+                                    <div class="dashboard-reservation mt-3">
+
+                                        <strong>
+                                            Player Notes
+                                        </strong>
+
+                                        <p class="mb-0">
+                                            {{ lesson.notes }}
+                                        </p>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-card text-center">
+
+                    <h2>
+                        No Upcoming Lessons
+                    </h2>
+
+                    <p>
+                        You do not currently have any confirmed lessons scheduled.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
