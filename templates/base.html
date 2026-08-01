@@ -24,9 +24,10 @@
     rel="stylesheet">
 
     <link
-        rel="stylesheet"
-        href="{% static 'pages/css/style.css' %}"
+    rel="stylesheet"
+    href="{% static 'pages/css/style.css' %}?v=2"
     >
+    
 </head>
 
 <body>
@@ -79,52 +80,168 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="{% url 'coaches:coach_list' %}"
+                        >
+                            Coaches
+                        </a>
+                    </li>
+
+                    <li class="nav-item ms-lg-3">
+                        <a
+                            class="btn reservation-button"
+                            href="{% url 'create_reservation' %}"
+                        >
+                            Make a Reservation
+                        </a>
+                    </li>
+
                     {% if user.is_authenticated %}
 
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{% url 'profile' %}"
+                        <li class="nav-item dropdown ms-lg-3">
+
+                            <button
+                                class="nav-link dropdown-toggle user-dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
                             >
-                                Profile
-                            </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="{% url 'dashboard' %}"
-                            >
-                                Dashboard
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                            href="{% url 'coaches:coach_list' %}">
-                            Coaches
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <form
-                                method="post"
-                                action="{% url 'logout' %}"
-                            >
-                                {% csrf_token %}
-
-                                <button
-                                    type="submit"
-                                    class="nav-link btn btn-link logout-button"
+                                <img
+                                    src="{{ user.profile.profile_picture.url }}"
+                                    alt="{{ user.username }} profile picture"
+                                    class="navbar-profile-picture"
                                 >
-                                    Logout
-                                </button>
-                            </form>
+
+                                <span>
+                                    {{ user.first_name|default:user.username }}
+                                </span>
+
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+
+                                <li class="dropdown-user-header">
+
+                                    <img
+                                        src="{{ user.profile.profile_picture.url }}"
+                                        alt="{{ user.username }} profile picture"
+                                        class="dropdown-profile-picture"
+                                    >
+
+                                    <div>
+
+                                        <strong>
+                                            {{ user.get_full_name|default:user.username }}
+                                        </strong>
+
+                                        <span>
+                                            {{ user.profile.get_role_display }}
+                                        </span>
+
+                                    </div>
+
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'dashboard' %}"
+                                    >
+                                        Dashboard
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'edit_profile' %}"
+                                    >
+                                        Edit Profile
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'my_reservations' %}"
+                                    >
+                                        My Reservations
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'coaches:my_lessons' %}"
+                                    >
+                                        My Lessons
+                                    </a>
+                                </li>
+
+                                {% if user.profile.role == 'coach' %}
+
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{% url 'coaches:coach_schedule' %}"
+                                        >
+                                            Coach Schedule
+                                        </a>
+                                    </li>
+
+                                {% endif %}
+
+                                {% if user.is_staff %}
+
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{% url 'admin:index' %}"
+                                        >
+                                            Admin Panel
+                                        </a>
+                                    </li>
+
+                                {% endif %}
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'logout' %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="dropdown-item text-danger"
+                                        >
+                                            Logout
+                                        </button>
+
+                                    </form>
+
+                                </li>
+
+                            </ul>
+
                         </li>
 
                     {% else %}
 
-                        <li class="nav-item">
+                        <li class="nav-item ms-lg-3">
                             <a
                                 class="nav-link"
                                 href="{% url 'login' %}"
@@ -143,15 +260,6 @@
                         </li>
 
                     {% endif %}
-
-                    <li class="nav-item ms-lg-3">
-                        <a
-                            class="btn reservation-button"
-                            href="{% url 'create_reservation' %}"
-                        >
-                            Make a Reservation
-                        </a>
-                    </li>
 
                 </ul>
 
