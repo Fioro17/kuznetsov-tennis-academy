@@ -28,10 +28,18 @@ Dashboard | Kuznetsov Tennis Academy
                     Welcome, {{ user.first_name|default:user.username }}
                 </h1>
 
-                <p>
+                <p class="dashboard-member-details">
+
                     {{ user_profile.get_role_display }}
-                    ·
-                    {{ user_profile.get_player_level_display }}
+
+                    {% if user_profile.player_level %}
+
+                        <span>·</span>
+
+                        {{ user_profile.get_player_level_display }}
+
+                    {% endif %}
+
                 </p>
 
             </div>
@@ -39,208 +47,409 @@ Dashboard | Kuznetsov Tennis Academy
         </div>
 
 
-        <div class="row g-4 mt-3">
+        <!-- Upcoming activity -->
 
-            <!-- Profile Card -->
+        <div class="dashboard-section-heading">
 
-            <div class="col-md-4">
+            <div>
 
-                <div class="dashboard-card">
+                <p class="section-eyebrow">
+                    Your Schedule
+                </p>
 
-                    <h2>
-                        Profile
-                    </h2>
-
-                    <p>
-                        Review and update your personal and tennis information.
-                    </p>
-
-                    <a
-                        href="{% url 'profile' %}"
-                        class="btn hero-secondary-button"
-                    >
-                        View Profile
-                    </a>
-
-                </div>
+                <h2>
+                    Upcoming Activity
+                </h2>
 
             </div>
 
+        </div>
 
-            <!-- Reservations Card -->
 
-            <div class="col-md-4">
+        <div class="row g-4">
 
-                <div class="dashboard-card">
+            <!-- Next Reservation -->
 
-                    <h2>
-                        Reservations
-                    </h2>
-                    
-                    <p>
-                        View and manage your reservations.
-                    </p>
+            <div class="col-lg-6">
+
+                <article class="dashboard-feature-card">
+
+                    <div class="dashboard-feature-top">
+
+                        <div>
+
+                            <p class="dashboard-card-label">
+                                Next Court Reservation
+                            </p>
+
+                            <h2>
+                                {% if next_reservation %}
+                                    {{ next_reservation.court }}
+                                {% else %}
+                                    No Upcoming Reservation
+                                {% endif %}
+                            </h2>
+
+                        </div>
+
+                        <span class="dashboard-count-badge">
+                            {{ upcoming_reservations_count }}
+                            upcoming
+                        </span>
+
+                    </div>
+
+
+                    {% if next_reservation %}
+
+                        <div class="dashboard-schedule-details">
+
+                            <div>
+
+                                <span>
+                                    Date
+                                </span>
+
+                                <strong>
+                                    {{ next_reservation.date|date:"F j, Y" }}
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Time
+                                </span>
+
+                                <strong>
+                                    {{ next_reservation.start_time|time:"g:i A" }}
+                                    –
+                                    {{ next_reservation.end_time|time:"g:i A" }}
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Surface
+                                </span>
+
+                                <strong>
+                                    {{ next_reservation.court.get_surface_display }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+
+                        <p class="dashboard-empty-copy">
+                            You do not currently have a court reservation.
+                        </p>
+
+                    {% endif %}
+
+
+                    <div class="dashboard-card-actions">
 
                         <a
                             href="{% url 'my_reservations' %}"
-                            class="btn hero-secondary-button"
+                            class="btn academy-secondary-button"
                         >
-                            View My Reservations
+                            My Reservations
                         </a>
 
-                        <a  
+                        <a
                             href="{% url 'create_reservation' %}"
-                            class="btn hero-primary-button"
+                            class="btn academy-primary-button"
                         >
                             Reserve a Court
                         </a>
 
-                </div>
+                    </div>
+
+                </article>
 
             </div>
 
 
-            <!-- Lessons Card -->
+            <!-- Next Lesson -->
 
-            <div class="col-md-4">
+            <div class="col-lg-6">
 
-                <div class="dashboard-card">
+                <article class="dashboard-feature-card">
 
-                    <h2>
-                        My Lessons
-                    </h2>
+                    <div class="dashboard-feature-top">
+
+                        <div>
+
+                            <p class="dashboard-card-label">
+                                Next Coaching Session
+                            </p>
+
+                            <h2>
+                                {% if next_lesson %}
+                                    {{ next_lesson.program.name }}
+                                {% else %}
+                                    No Upcoming Lesson
+                                {% endif %}
+                            </h2>
+
+                        </div>
+
+                        <span class="dashboard-count-badge">
+                            {{ upcoming_lessons_count }}
+                            upcoming
+                        </span>
+
+                    </div>
+
+
+                    {% if next_lesson %}
+
+                        <div class="dashboard-schedule-details">
+
+                            <div>
+
+                                <span>
+                                    Coach
+                                </span>
+
+                                <strong>
+                                    {{ next_lesson.coach }}
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Date
+                                </span>
+
+                                <strong>
+                                    {{ next_lesson.date|date:"F j, Y" }}
+                                </strong>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Time
+                                </span>
+
+                                <strong>
+                                    {{ next_lesson.start_time|time:"g:i A" }}
+                                    –
+                                    {{ next_lesson.end_time|time:"g:i A" }}
+                                </strong>
+
+                            </div>
+
+                            {% if next_lesson.reservation %}
+
+                                <div>
+
+                                    <span>
+                                        Court
+                                    </span>
+
+                                    <strong>
+                                        Court {{ next_lesson.reservation.court.number }}
+                                    </strong>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% else %}
+
+                        <p class="dashboard-empty-copy">
+                            You do not currently have a coaching session booked.
+                        </p>
+
+                    {% endif %}
+
+
+                    <div class="dashboard-card-actions">
+
+                        <a
+                            href="{% url 'coaches:my_lessons' %}"
+                            class="btn academy-secondary-button"
+                        >
+                            My Lessons
+                        </a>
+
+                        <a
+                            href="{% url 'coaches:coach_list' %}"
+                            class="btn academy-primary-button"
+                        >
+                            Book a Lesson
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+
+        <!-- Account tools -->
+
+        <div class="dashboard-section-heading dashboard-tools-heading">
+
+            <div>
+
+                <p class="section-eyebrow">
+                    Member Services
+                </p>
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-4">
+
+                <article class="dashboard-action-card">
+
+                    <span class="dashboard-action-number">
+                        01
+                    </span>
+
+                    <h3>
+                        Profile
+                    </h3>
 
                     <p>
-                        View your coaching sessions, assigned courts, and lesson history.
+                        Review your membership, tennis level,
+                        contact details, and profile picture.
                     </p>
 
-                    <a
-                        href="{% url 'coaches:my_lessons' %}"
-                        class="btn hero-secondary-button"
-                    >
-                        View My Lessons
-                    </a>
+                    <div class="dashboard-action-links">
+
+                        <a
+                            href="{% url 'profile' %}"
+                            class="dashboard-text-link"
+                        >
+                            View Profile
+                        </a>
+
+                        <a
+                            href="{% url 'edit_profile' %}"
+                            class="dashboard-text-link"
+                        >
+                            Edit Profile
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <article class="dashboard-action-card">
+
+                    <span class="dashboard-action-number">
+                        02
+                    </span>
+
+                    <h3>
+                        Coaching Team
+                    </h3>
+
+                    <p>
+                        Browse academy coaches, specialties,
+                        experience, and available lesson programs.
+                    </p>
 
                     <a
                         href="{% url 'coaches:coach_list' %}"
-                        class="btn hero-primary-button"
+                        class="dashboard-text-link"
                     >
-                        Book a Lesson
+                        Explore Coaches
                     </a>
 
-                </div>
+                </article>
 
             </div>
 
 
-            <!-- Coaches Card -->
+            <div class="col-md-6 col-lg-4">
 
-            <div class="col-md-4">
+                <article class="dashboard-action-card">
 
-                <div class="dashboard-card">
+                    <span class="dashboard-action-number">
+                        03
+                    </span>
 
-                    <h2>
-                        Coaches
-                    </h2>
+                    <h3>
+                        Court Availability
+                    </h3>
 
                     <p>
-                        Explore the academy coaching team and available lesson programs.
+                        Review a court’s daily schedule before
+                        choosing the best available time.
                     </p>
 
                     <a
-                        href="{% url 'coaches:coach_list' %}"
-                        class="btn hero-secondary-button"
+                        href="{% url 'create_reservation' %}#court-availability"
+                        class="dashboard-text-link"
                     >
-                        View Coaches
+                        Check Availability
                     </a>
 
-                </div>
+                </article>
 
             </div>
 
-
-            <!-- Tournaments Card -->
-
-            <div class="col-md-4">
-
-                <div class="dashboard-card">
-
-                    <h2>
-                        Tournaments
-                    </h2>
-
-                    <p>
-                        You are not registered for any tournaments yet.
-                    </p>
-
-                    <a
-                        href="#"
-                        class="btn hero-secondary-button"
-                    >
-                        View Tournaments
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- Account Card -->
-
-            <div class="col-md-4">
-
-                <div class="dashboard-card">
-
-                    <h2>
-                        Account
-                    </h2>
-
-                    <p>
-                        Manage your profile information or securely leave your account.
-                    </p>
-
-                    <a
-                        href="{% url 'edit_profile' %}"
-                        class="btn hero-secondary-button"
-                    >
-                        Edit Profile
-                    </a>
-
-                    <a
-                        href="{% url 'logout' %}"
-                        class="btn hero-primary-button"
-                    >
-                        Logout
-                    </a>
-
-                </div>
-
-            </div>
 
             {% if is_coach %}
 
-            <div class="col-md-4">
+                <div class="col-md-6 col-lg-4">
 
-                <div class="dashboard-card">
+                    <article class="dashboard-action-card dashboard-coach-card">
 
-                    <h2>
-                        Coach Schedule
-                    </h2>
+                        <span class="dashboard-action-number">
+                            Coach
+                        </span>
 
-                    <p>
-                        View your upcoming lessons, players, assigned courts, and session times.
-                    </p>
+                        <h3>
+                            Coach Schedule
+                        </h3>
 
-                    <a
-                        href="{% url 'coaches:coach_schedule' %}"
-                        class="btn hero-primary-button"
-                    >       
-                        View Schedule
-                    </a>
+                        <p>
+                            Review upcoming lessons, players,
+                            assigned courts, and session notes.
+                        </p>
+
+                        <a
+                            href="{% url 'coaches:coach_schedule' %}"
+                            class="dashboard-text-link"
+                        >
+                            View Schedule
+                        </a>
+
+                    </article>
 
                 </div>
-
-            </div>
 
             {% endif %}
 

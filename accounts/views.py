@@ -1,33 +1,66 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.utils import timezone
+
+from coaches.models import LessonBooking
+from reservations.models import Reservation
+
 from .forms import ProfileUpdateForm, UserUpdateForm
 from .models import Profile
-from datetime import date
-from reservations.models import Reservation
 
 
 def register(request):
+
     if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+
+        form = UserCreationForm(
+            request.POST
+        )
 
         if form.is_valid():
+
             user = form.save()
-            login(request, user)
-            return redirect('home')
+
+            Profile.objects.get_or_create(
+                user=user
+            )
+
+            login(
+                request,
+                user
+            )
+
+            return redirect(
+                'home'
+            )
+
     else:
+
         form = UserCreationForm()
 
-    return render(request, 'accounts/register.html', {'form': form})
+    context = {
+        'form': form,
+    }
+
+    return render(
+        request,
+        'accounts/register.html',
+        context
+    )
 
 
 @login_required
 def profile(request):
-    Profile.objects.get_or_create(user=request.user)
+
+    Profile.objects.get_or_create(
+        user=request.user
+    )
 
     return render(
         request,
@@ -37,11 +70,13 @@ def profile(request):
 
 @login_required
 def edit_profile(request):
+
     user_profile, created = Profile.objects.get_or_create(
         user=request.user
     )
 
     if request.method == 'POST':
+
         user_form = UserUpdateForm(
             request.POST,
             instance=request.user
@@ -53,13 +88,20 @@ def edit_profile(request):
             instance=user_profile
         )
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if (
+            user_form.is_valid()
+            and profile_form.is_valid()
+        ):
+
             user_form.save()
             profile_form.save()
 
-            return redirect('profile')
+            return redirect(
+                'profile'
+            )
 
     else:
+
         user_form = UserUpdateForm(
             instance=request.user
         )
@@ -79,45 +121,67 @@ def edit_profile(request):
         context
     )
 
+
 @login_required
 def dashboard(request):
+
     user_profile, created = Profile.objects.get_or_create(
         user=request.user
     )
 
-    upcoming_reservations = Reservation.objects.filter(
-        user=request.user,
-        status='active',
-        date__gte=date.today()
-    ).order_by(
-        'date',
-        'start_time'
-    )[:3]
+    today = timezone.localdate()
+    current_time = timezone.localtime().time()
 
-    context = {
-        'user_profile': user_profile,
-        'upcoming_reservations': upcoming_reservations,
-    }
-
-    return render(
-        request,
-        'accounts/dashboard.html',
-        context
+    upcoming_reservations = (
+        Reservation.objects.filter(
+            user=request.user,
+            status='active',
+            lesson_booking__isnull=True
+        )
+        .filter(
+            Q(date__gt=today)
+            |
+            Q(
+                date=today,
+                end_time__gt=current_time
+            )
+        )
+        .select_related(
+            'court'
+        )
+        .order_by(
+            'date',
+            'start_time'
+        )
     )
 
-@login_required
-def dashboard(request):
+    next_reservation = upcoming_reservations.first()
 
-    user_profile = request.user.profile
+    upcoming_lessons = (
+        LessonBooking.objects.filter(
+            player=request.user,
+            status='confirmed'
+        )
+        .filter(
+            Q(date__gt=today)
+            |
+            Q(
+                date=today,
+                end_time__gt=current_time
+            )
+        )
+        .select_related(
+            'coach__user',
+            'program',
+            'reservation__court'
+        )
+        .order_by(
+            'date',
+            'start_time'
+        )
+    )
 
-    upcoming_reservations = Reservation.objects.filter(
-        user=request.user,
-        status='active',
-        lesson_booking__isnull=True
-    ).order_by(
-        'date',
-        'start_time'
-    )[:3]
+    next_lesson = upcoming_lessons.first()
 
     is_coach = hasattr(
         request.user,
@@ -126,7 +190,14 @@ def dashboard(request):
 
     context = {
         'user_profile': user_profile,
-        'upcoming_reservations': upcoming_reservations,
+        'next_reservation': next_reservation,
+        'next_lesson': next_lesson,
+        'upcoming_reservations_count': (
+            upcoming_reservations.count()
+        ),
+        'upcoming_lessons_count': (
+            upcoming_lessons.count()
+        ),
         'is_coach': is_coach,
     }
 
