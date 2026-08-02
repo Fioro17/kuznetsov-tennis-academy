@@ -30,7 +30,10 @@ Make a Reservation | Kuznetsov Tennis Academy
 
         <div class="simple-reservation-layout">
 
-            <div class="simple-reservation-card">
+            <div
+                id="reservation-form"
+                class="simple-reservation-card"
+            >
 
                 <div class="simple-reservation-header">
 
@@ -52,7 +55,6 @@ Make a Reservation | Kuznetsov Tennis Academy
                 <form
                     method="post"
                     action="{% url 'create_reservation' %}#reservation-form"
-                    id="reservation-form"
                     class="reservation-booking-form"
                 >
 
@@ -223,6 +225,244 @@ Make a Reservation | Kuznetsov Tennis Academy
                 </form>
 
             </div>
+
+        </div>
+
+
+        <div
+            id="court-availability"
+            class="court-availability-section"
+        >
+
+            <div class="court-availability-header">
+
+                <div>
+
+                    <p class="section-eyebrow">
+                        Court Schedule
+                    </p>
+
+                    <h2>
+                        Check Court Availability
+                    </h2>
+
+                    <p>
+                        Choose one court and date to view every
+                        30-minute period during academy hours.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="get"
+                action="{% url 'create_reservation' %}#court-availability"
+                class="availability-selector-form"
+            >
+
+                <div class="availability-selector-field">
+
+                    <label
+                        for="availability-court"
+                        class="form-label"
+                    >
+                        Court
+                    </label>
+
+                    <select
+                        id="availability-court"
+                        name="availability_court"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select a court
+                        </option>
+
+                        {% for court in courts %}
+
+                            <option
+                                value="{{ court.id }}"
+                                {% if availability_court_id == court.id|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ court }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="availability-selector-field">
+
+                    <label
+                        for="availability-date"
+                        class="form-label"
+                    >
+                        Date
+                    </label>
+
+                    <input
+                        id="availability-date"
+                        type="date"
+                        name="availability_date"
+                        value="{{ availability_date }}"
+                        min="{{ today }}"
+                        max="{{ latest_booking_date }}"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn academy-primary-button"
+                >
+                    View Availability
+                </button>
+
+            </form>
+
+
+            {% if availability_error %}
+
+                <div
+                    class="alert alert-danger mt-4"
+                    role="alert"
+                >
+                    {{ availability_error }}
+                </div>
+
+            {% endif %}
+
+
+            {% if availability_slots %}
+
+                <div class="availability-results">
+
+                    <div class="availability-results-heading">
+
+                        <div>
+
+                            <p class="availability-results-label">
+                                Selected Court
+                            </p>
+
+                            <h3>
+                                {{ availability_court }}
+                            </h3>
+
+                            <p>
+                                {{ availability_date }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="availability-legend">
+
+                            <span>
+                                <i class="legend-swatch legend-available"></i>
+                                Available
+                            </span>
+
+                            <span>
+                                <i class="legend-swatch legend-reserved"></i>
+                                Reserved
+                            </span>
+
+                            <span>
+                                <i class="legend-swatch legend-past"></i>
+                                Past
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="availability-slot-grid">
+
+                        {% for slot in availability_slots %}
+
+                            {% if slot.status == 'available' %}
+
+                                <a
+                                    href="{% url 'create_reservation' %}?availability_court={{ availability_court.id }}&availability_date={{ availability_date }}#reservation-form"
+                                    class="availability-slot availability-slot-available"
+                                    title="Available"
+                                >
+
+                                    <strong>
+                                        {{ slot.label }}
+                                    </strong>
+
+                                    <span>
+                                        Available
+                                    </span>
+
+                                </a>
+
+                            {% elif slot.status == 'reserved' %}
+
+                                <div class="availability-slot availability-slot-reserved">
+
+                                    <strong>
+                                        {{ slot.label }}
+                                    </strong>
+
+                                    <span>
+                                        Reserved
+                                    </span>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="availability-slot availability-slot-past">
+
+                                    <strong>
+                                        {{ slot.label }}
+                                    </strong>
+
+                                    <span>
+                                        Past
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                {% if not availability_error %}
+
+                    <div class="availability-empty-state">
+
+                        <p>
+                            Select a court and date to view its schedule.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
 
         </div>
 

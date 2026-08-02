@@ -1,5 +1,5 @@
 from collections import defaultdict
-from datetime import datetime, time
+from datetime import datetime, time, timedelta 
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -161,34 +161,155 @@ def build_court_availability(courts, selected_date):
 
     return court_availability
 
+def build_single_court_slots(court, selected_date):
+
+    if not court or not selected_date:
+        return []
+
+    reservations = Reservation.objects.filter(
+        court=court,
+        date=selected_date,
+        status='active'
+    ).order_by(
+        'start_time'
+    )
+
+    slots = []
+
+    current_datetime = datetime.combine(
+        selected_date,
+        ACADEMY_OPENING_TIME
+    )
+
+    closing_datetime = datetime.combine(
+        selected_date,
+        ACADEMY_CLOSING_TIME
+    )
+
+    now = timezone.localtime()
+
+    while current_datetime < closing_datetime:
+
+        slot_end_datetime = current_datetime + timedelta(
+            minutes=SLOT_LENGTH_MINUTES
+        )
+
+        slot_start_time = current_datetime.time()
+        slot_end_time = slot_end_datetime.time()
+
+        reservation_exists = reservations.filter(
+            start_time__lt=slot_end_time,
+            end_time__gt=slot_start_time
+        ).exists()
+
+        aware_slot_start = timezone.make_aware(
+            current_datetime
+        )
+
+        if aware_slot_start <= now:
+            status = 'past'
+
+        elif reservation_exists:
+            status = 'reserved'
+
+        else:
+            status = 'available'
+
+        slots.append({
+            'start_time': slot_start_time,
+            'end_time': slot_end_time,
+            'status': status,
+            'start_value': slot_start_time.strftime('%H:%M'),
+            'end_value': slot_end_time.strftime('%H:%M'),
+            'label': slot_start_time.strftime(
+                '%I:%M %p'
+            ).lstrip('0'),
+        })
+
+        current_datetime = slot_end_datetime
+
+    return slots
 
 @login_required
 def create_reservation(request):
 
-    selected_date_string = request.GET.get(
-        'date',
+    today = timezone.localdate()
+    latest_booking_date = today + timedelta(days=14)
+
+    courts = Court.objects.filter(
+        is_active=True
+    ).order_by(
+        'court_type',
+        'location',
+        'surface',
+        'number'
+    )
+
+    availability_date_string = request.GET.get(
+        'availability_date',
         ''
     )
 
-    selected_court_id = request.GET.get(
-        'court',
+    availability_court_id = request.GET.get(
+        'availability_court',
         ''
     )
+
+    availability_date = parse_selected_date(
+        availability_date_string
+    )
+
+    availability_court = None
+    availability_slots = []
+    availability_error = None
+
+    if availability_court_id:
+
+        availability_court = courts.filter(
+            id=availability_court_id
+        ).first()
+
+        if not availability_court:
+            availability_error = (
+                'Please select a valid active court.'
+            )
+
+    if availability_date_string and not availability_date:
+
+        availability_error = (
+            'Please select a valid date.'
+        )
+
+    elif availability_date:
+
+        if availability_date < today:
+
+            availability_error = (
+                'Availability cannot be viewed for a past date.'
+            )
+
+        elif availability_date > latest_booking_date:
+
+            availability_error = (
+                'Availability can only be viewed up to '
+                '14 days ahead.'
+            )
+
+    if (
+        availability_date
+        and availability_court
+        and not availability_error
+    ):
+
+        availability_slots = build_single_court_slots(
+            availability_court,
+            availability_date
+        )
 
     if request.method == 'POST':
 
         form = ReservationForm(
             request.POST
-        )
-
-        selected_date_string = request.POST.get(
-            'date',
-            ''
-        )
-
-        selected_court_id = request.POST.get(
-            'court',
-            ''
         )
 
         if form.is_valid():
@@ -199,7 +320,6 @@ def create_reservation(request):
 
             reservation.user = request.user
 
-            today = timezone.localdate()
             current_time = timezone.localtime().time()
 
             reservation_is_past = (
@@ -259,10 +379,7 @@ def create_reservation(request):
 
                 messages.success(
                     request,
-                    (
-                        'Your reservation was created '
-                        'successfully.'
-                    )
+                    'Your reservation was created successfully.'
                 )
 
                 return redirect(
@@ -273,63 +390,26 @@ def create_reservation(request):
 
         initial_data = {}
 
-        if selected_date_string:
-            initial_data['date'] = (
-                selected_date_string
-            )
+        if availability_date:
+            initial_data['date'] = availability_date
 
-        if selected_court_id:
-            initial_data['court'] = (
-                selected_court_id
-            )
+        if availability_court:
+            initial_data['court'] = availability_court.id
 
         form = ReservationForm(
             initial=initial_data
         )
 
-    courts = Court.objects.filter(
-        is_active=True
-    ).order_by(
-        'court_type',
-        'location',
-        'surface',
-        'number'
-    )
-
-    selected_date = parse_selected_date(
-        selected_date_string
-    )
-
-    if selected_date_string and not selected_date:
-
-        messages.error(
-            request,
-            'Please select a valid date.'
-        )
-
-        selected_date_string = ''
-
-    selected_court = None
-
-    if selected_court_id:
-
-        selected_court = courts.filter(
-            id=selected_court_id
-        ).first()
-
-    court_availability = build_court_availability(
-        courts,
-        selected_date
-    )
-
     context = {
         'form': form,
-        'selected_date': selected_date_string,
-        'selected_court': selected_court,
-        'court_availability': court_availability,
-        'today': timezone.localdate().isoformat(),
-        'academy_opening_time': ACADEMY_OPENING_TIME,
-        'academy_closing_time': ACADEMY_CLOSING_TIME,
+        'courts': courts,
+        'availability_date': availability_date_string,
+        'availability_court': availability_court,
+        'availability_court_id': availability_court_id,
+        'availability_slots': availability_slots,
+        'availability_error': availability_error,
+        'today': today.isoformat(),
+        'latest_booking_date': latest_booking_date.isoformat(),
     }
 
     return render(
