@@ -2,18 +2,22 @@
    KUZNETSOV TENNIS ACADEMY
    ORGANIZED STYLESHEET
 
-   01. Global foundation and navigation
-   02. Shared buttons
-   03. Public pages
-       03.1 Home
-       03.2 Academy
-   04. Reservations
-   05. Accounts
-   06. Shared responsive adjustments
+   01. Global Foundation
+   02. Navigation
+   03. Shared Components
+   04. Home Page
+   05. Academy Page
+   06. Coaches
+   07. Reservations
+   08. Accounts
+   09. Shared Responsive Adjustments
+
+   Large banners separate major areas.
+   Smaller banners separate features inside each area.
 ================================================== */
 
 /* ==================================================
-   01. GLOBAL FOUNDATION AND NAVIGATION
+   01. GLOBAL FOUNDATION
 ================================================== */
 
 :root {
@@ -51,6 +55,9 @@ h6 {
     font-family: "Libre Baskerville", serif;
 }
 
+/* ==================================================
+   02. NAVIGATION
+================================================== */
 
 /* ---------- NAVBAR ---------- */
 
@@ -220,8 +227,10 @@ h6 {
 }
 
 /* ==================================================
-   SHARED BUTTON SYSTEM
+   03. SHARED COMPONENTS
 ================================================== */
+
+/* ---------- SHARED BUTTON SYSTEM ---------- */
 
 .home-button,
 .academy-button,
@@ -336,12 +345,10 @@ h6 {
 }
 
 /* ==================================================
-   03. PUBLIC PAGES — HOME
+   04. HOME PAGE
 ================================================== */
 
-/* ==================================================
-   HOME PAGE
-================================================== */
+/* ---------- HOME PAGE FOUNDATION ---------- */
 
 .home-page {
     --home-green: #1f3a2e;
@@ -1031,12 +1038,10 @@ h6 {
 }
 
 /* ==================================================
-   03. PUBLIC PAGES — ACADEMY
+   05. ACADEMY PAGE
 ================================================== */
 
-/* ==================================================
-   ACADEMY PAGE
-================================================== */
+/* ---------- ACADEMY PAGE FOUNDATION ---------- */
 
 .academy-page {
     --academy-green: #1f3a2e;
@@ -1598,7 +1603,175 @@ h6 {
 }
 
 /* ==================================================
-   04. RESERVATIONS
+   06. COACHES
+================================================== */
+
+/* ---------- Coaches ---------- */
+
+.coach-list-section,
+.coach-detail-section {
+    padding: 7rem 0;
+    background-color: var(--academy-background);
+}
+
+.coach-page-heading {
+    max-width: 720px;
+    margin: 0 auto 4rem;
+}
+
+.coach-page-description {
+    color: var(--academy-text);
+    font-size: 1.05rem;
+}
+
+.coach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.coach-card {
+    background-color: var(--academy-surface);
+    border: 1px solid rgba(184, 155, 94, 0.35);
+    overflow: hidden;
+}
+
+.coach-card-image-wrapper {
+    height: 350px;
+    overflow: hidden;
+}
+
+.coach-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.coach-card-content {
+    padding: 2rem;
+}
+
+.coach-card-title,
+.coach-card-specialty {
+    color: var(--academy-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.12rem;
+    font-size: 0.78rem;
+}
+
+.coach-card-name {
+    color: var(--academy-dark-green);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 2rem;
+}
+
+.coach-card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+    color: var(--academy-text);
+}
+
+.coach-card-price {
+    color: var(--academy-dark-green);
+    font-weight: 600;
+}
+
+.coach-card-programs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.coach-program-badge {
+    padding: 0.4rem 0.75rem;
+    background-color: rgba(184, 155, 94, 0.12);
+    color: var(--academy-dark-green);
+    font-size: 0.8rem;
+}
+
+.coach-detail-layout {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 5rem;
+    align-items: start;
+}
+
+.coach-detail-image {
+    width: 100%;
+    height: 650px;
+    object-fit: cover;
+}
+
+.coach-detail-specialty {
+    color: var(--academy-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+}
+
+.coach-detail-statistics {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.coach-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.coach-stat-value {
+    color: var(--academy-dark-green);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 2rem;
+}
+
+.coach-stat-label {
+    color: var(--academy-text);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.coach-biography,
+.coach-program-section {
+    margin-top: 2.5rem;
+}
+
+.coach-program-item {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(184, 155, 94, 0.3);
+}
+
+@media (max-width: 992px) {
+    .coach-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .coach-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .coach-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .coach-detail-statistics {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .coach-detail-image {
+        height: 450px;
+    }
+}
+
+/* ==================================================
+   07. RESERVATIONS
 ================================================== */
 
 /* ---------- RESERVATION PAGE ---------- */
@@ -2023,516 +2196,6 @@ h6 {
 
 .empty-state h3 {
     color: var(--academy-dark-green);
-}
-
-/* ==================================================
-   05. ACCOUNTS
-================================================== */
-
-/* ---------- AUTHENTICATION ---------- */
-
-.auth-section {
-    min-height: calc(100vh - 90px);
-
-    display: flex;
-    align-items: center;
-
-    padding: 70px 20px;
-}
-
-.auth-card {
-    max-width: 520px;
-
-    margin: 0 auto;
-    padding: 48px;
-
-    border-top: 3px solid var(--academy-gold);
-
-    background-color: var(--academy-surface);
-
-    box-shadow: 0 18px 50px rgba(20, 39, 31, 0.12);
-}
-
-.auth-card h1 {
-    margin-bottom: 30px;
-
-    color: var(--academy-green);
-
-    font-size: 3rem;
-}
-
-.auth-card .form-control {
-    padding: 12px;
-
-    border-radius: 0;
-}
-
-.auth-card .form-control:focus {
-    border-color: var(--academy-gold);
-
-    box-shadow:
-        0 0 0 0.2rem rgba(184, 155, 94, 0.15);
-}
-
-.auth-link {
-    margin-top: 24px;
-
-    text-align: center;
-}
-
-.auth-link a {
-    color: var(--academy-green);
-
-    font-weight: 600;
-}
-
-.profile-picture {
-    width: 150px;
-    height: 150px;
-
-    display: block;
-
-    margin: 0 auto 24px;
-
-    border: 3px solid var(--academy-gold);
-    border-radius: 50%;
-
-    object-fit: cover;
-}
-
-
-/* ---------- DASHBOARD ---------- */
-
-.dashboard-section {
-    min-height: calc(100vh - 90px);
-
-    padding: 70px 20px;
-}
-
-.dashboard-header {
-    display: flex;
-    align-items: center;
-
-    gap: 28px;
-
-    margin-bottom: 40px;
-}
-
-.dashboard-header h1 {
-    margin-bottom: 8px;
-
-    color: var(--academy-green);
-
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
-}
-
-.dashboard-profile-picture {
-    width: 130px;
-    height: 130px;
-
-    border: 3px solid var(--academy-gold);
-    border-radius: 50%;
-
-    object-fit: cover;
-}
-
-.dashboard-card {
-    height: 100%;
-
-    padding: 32px;
-
-    border-top: 3px solid var(--academy-gold);
-
-    background-color: var(--academy-surface);
-
-    box-shadow: 0 14px 35px rgba(20, 39, 31, 0.1);
-}
-
-.dashboard-card h2,
-.dashboard-role-panel h2 {
-    color: var(--academy-green);
-
-    font-size: 2.2rem;
-}
-
-.dashboard-role-panel {
-    margin-top: 40px;
-    padding: 35px;
-
-    background-color: var(--academy-green);
-    color: var(--academy-white);
-}
-
-.dashboard-role-panel h2 {
-    color: var(--academy-gold);
-}
-
-.dashboard-reservation {
-    margin-bottom: 18px;
-    padding-bottom: 12px;
-
-    border-bottom: 1px solid rgba(20, 39, 31, 0.15);
-}
-
-.dashboard-reservation:last-of-type {
-    border-bottom: none;
-}
-
-.dashboard-reservation p {
-    margin-bottom: 0;
-}
-
-.dashboard-card .btn {
-    margin-top: 10px;
-    margin-right: 8px;
-}
-
-/* ==================================================
-   06. SHARED RESPONSIVE ADJUSTMENTS
-================================================== */
-
-/* ---------- TABLETS ---------- */
-
-@media (max-width: 991.98px) {
-
-    .reservation-panel {
-        padding: 1.5rem;
-    }
-
-    .reservation-panel-header {
-        flex-direction: column;
-    }
-
-    .availability-summary {
-        width: 100%;
-    }
-}
-
-
-/* ---------- PHONES ---------- */
-
-@media (max-width: 767.98px) {
-
-    .main-navbar .nav-link {
-        margin-left: 0;
-        margin-top: 10px;
-    }
-
-    .reservation-button {
-        width: 100%;
-
-        margin-top: 12px;
-    }
-
-    .hero-section {
-        padding: 60px 16px;
-    }
-
-    .hero-title {
-        font-size: clamp(2.8rem, 15vw, 4.5rem);
-    }
-
-    .hero-primary-button,
-    .hero-secondary-button {
-        width: 100%;
-
-        margin: 6px 0;
-    }
-
-    .auth-card {
-        padding: 32px 22px;
-    }
-
-    .auth-card h1 {
-        font-size: 2.5rem;
-    }
-
-    .dashboard-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .dashboard-card {
-        padding: 24px;
-    }
-
-    .dashboard-role-panel {
-        padding: 25px;
-    }
-
-    .reservation-page .container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    .reservation-heading {
-        margin-bottom: 2rem !important;
-    }
-
-    .reservation-rules {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .reservation-rules span {
-        width: 100%;
-
-        text-align: center;
-    }
-
-    .reservation-panel {
-        padding: 1.2rem;
-
-        border-radius: 12px;
-    }
-
-    .reservation-date-form {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .reservation-date-form .btn {
-        width: 100%;
-    }
-
-    .clean-court-row {
-        flex-direction: column;
-        align-items: stretch;
-
-        padding: 1.1rem;
-    }
-
-    .clean-court-title-row {
-        flex-direction: column;
-    }
-
-    .availability-count {
-        align-self: flex-start;
-    }
-
-    .clean-court-action {
-        width: 100%;
-    }
-
-    .clean-court-action .btn {
-        width: 100%;
-    }
-
-    .selected-booking-summary {
-        flex-direction: column;
-        align-items: flex-start;
-
-        gap: 0.5rem;
-    }
-
-    .reservation-form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .reservation-field-wide {
-        grid-column: auto;
-    }
-
-    .reservation-form-actions {
-        flex-direction: column-reverse;
-    }
-
-    .reservation-form-actions .btn {
-        width: 100%;
-    }
-}
-
-
-/* ---------- SMALL PHONES ---------- */
-
-@media (max-width: 420px) {
-
-    .hero-section {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
-    .auth-card {
-        padding: 28px 18px;
-    }
-
-    .reservation-panel {
-        padding: 1rem;
-    }
-
-    .clean-court-row {
-        padding: 1rem;
-    }
-
-    .reserved-period {
-        width: 100%;
-
-        text-align: center;
-    }
-}
-
-/* ---------- Coaches ---------- */
-
-.coach-list-section,
-.coach-detail-section {
-    padding: 7rem 0;
-    background-color: var(--academy-background);
-}
-
-.coach-page-heading {
-    max-width: 720px;
-    margin: 0 auto 4rem;
-}
-
-.coach-page-description {
-    color: var(--academy-text);
-    font-size: 1.05rem;
-}
-
-.coach-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-}
-
-.coach-card {
-    background-color: var(--academy-surface);
-    border: 1px solid rgba(184, 155, 94, 0.35);
-    overflow: hidden;
-}
-
-.coach-card-image-wrapper {
-    height: 350px;
-    overflow: hidden;
-}
-
-.coach-card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.coach-card-content {
-    padding: 2rem;
-}
-
-.coach-card-title,
-.coach-card-specialty {
-    color: var(--academy-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.12rem;
-    font-size: 0.78rem;
-}
-
-.coach-card-name {
-    color: var(--academy-dark-green);
-    font-family: "Cormorant Garamond", serif;
-    font-size: 2rem;
-}
-
-.coach-card-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 1rem 0;
-    color: var(--academy-text);
-}
-
-.coach-card-price {
-    color: var(--academy-dark-green);
-    font-weight: 600;
-}
-
-.coach-card-programs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1.5rem 0;
-}
-
-.coach-program-badge {
-    padding: 0.4rem 0.75rem;
-    background-color: rgba(184, 155, 94, 0.12);
-    color: var(--academy-dark-green);
-    font-size: 0.8rem;
-}
-
-.coach-detail-layout {
-    display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: 5rem;
-    align-items: start;
-}
-
-.coach-detail-image {
-    width: 100%;
-    height: 650px;
-    object-fit: cover;
-}
-
-.coach-detail-specialty {
-    color: var(--academy-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.15rem;
-}
-
-.coach-detail-statistics {
-    display: flex;
-    gap: 2rem;
-    margin: 2rem 0;
-}
-
-.coach-stat {
-    display: flex;
-    flex-direction: column;
-}
-
-.coach-stat-value {
-    color: var(--academy-dark-green);
-    font-family: "Cormorant Garamond", serif;
-    font-size: 2rem;
-}
-
-.coach-stat-label {
-    color: var(--academy-text);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-}
-
-.coach-biography,
-.coach-program-section {
-    margin-top: 2.5rem;
-}
-
-.coach-program-item {
-    padding: 1.25rem 0;
-    border-bottom: 1px solid rgba(184, 155, 94, 0.3);
-}
-
-@media (max-width: 992px) {
-    .coach-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .coach-detail-layout {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .coach-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .coach-detail-statistics {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .coach-detail-image {
-        height: 450px;
-    }
 }
 
 /* ---------- SIMPLE RESERVATION PAGE ---------- */
@@ -2977,8 +2640,168 @@ h6 {
 }
 
 /* ==================================================
-   MODERN MEMBER DASHBOARD
+   08. ACCOUNTS
 ================================================== */
+
+/* ---------- AUTHENTICATION ---------- */
+
+.auth-section {
+    min-height: calc(100vh - 90px);
+
+    display: flex;
+    align-items: center;
+
+    padding: 70px 20px;
+}
+
+.auth-card {
+    max-width: 520px;
+
+    margin: 0 auto;
+    padding: 48px;
+
+    border-top: 3px solid var(--academy-gold);
+
+    background-color: var(--academy-surface);
+
+    box-shadow: 0 18px 50px rgba(20, 39, 31, 0.12);
+}
+
+.auth-card h1 {
+    margin-bottom: 30px;
+
+    color: var(--academy-green);
+
+    font-size: 3rem;
+}
+
+.auth-card .form-control {
+    padding: 12px;
+
+    border-radius: 0;
+}
+
+.auth-card .form-control:focus {
+    border-color: var(--academy-gold);
+
+    box-shadow:
+        0 0 0 0.2rem rgba(184, 155, 94, 0.15);
+}
+
+.auth-link {
+    margin-top: 24px;
+
+    text-align: center;
+}
+
+.auth-link a {
+    color: var(--academy-green);
+
+    font-weight: 600;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+
+    display: block;
+
+    margin: 0 auto 24px;
+
+    border: 3px solid var(--academy-gold);
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+
+/* ---------- DASHBOARD ---------- */
+
+.dashboard-section {
+    min-height: calc(100vh - 90px);
+
+    padding: 70px 20px;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+
+    gap: 28px;
+
+    margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+    margin-bottom: 8px;
+
+    color: var(--academy-green);
+
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+}
+
+.dashboard-profile-picture {
+    width: 130px;
+    height: 130px;
+
+    border: 3px solid var(--academy-gold);
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+.dashboard-card {
+    height: 100%;
+
+    padding: 32px;
+
+    border-top: 3px solid var(--academy-gold);
+
+    background-color: var(--academy-surface);
+
+    box-shadow: 0 14px 35px rgba(20, 39, 31, 0.1);
+}
+
+.dashboard-card h2,
+.dashboard-role-panel h2 {
+    color: var(--academy-green);
+
+    font-size: 2.2rem;
+}
+
+.dashboard-role-panel {
+    margin-top: 40px;
+    padding: 35px;
+
+    background-color: var(--academy-green);
+    color: var(--academy-white);
+}
+
+.dashboard-role-panel h2 {
+    color: var(--academy-gold);
+}
+
+.dashboard-reservation {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid rgba(20, 39, 31, 0.15);
+}
+
+.dashboard-reservation:last-of-type {
+    border-bottom: none;
+}
+
+.dashboard-reservation p {
+    margin-bottom: 0;
+}
+
+.dashboard-card .btn {
+    margin-top: 10px;
+    margin-right: 8px;
+}
+
+/* ---------- MODERN MEMBER DASHBOARD ---------- */
 
 .dashboard-section {
     min-height: calc(100vh - 90px);
@@ -3354,6 +3177,190 @@ h6 {
 
     .dashboard-tools-heading {
         margin-top: 48px;
+    }
+}
+
+/* ==================================================
+   09. SHARED RESPONSIVE ADJUSTMENTS
+================================================== */
+
+/* ---------- TABLETS ---------- */
+
+@media (max-width: 991.98px) {
+
+    .reservation-panel {
+        padding: 1.5rem;
+    }
+
+    .reservation-panel-header {
+        flex-direction: column;
+    }
+
+    .availability-summary {
+        width: 100%;
+    }
+}
+
+
+/* ---------- PHONES ---------- */
+
+@media (max-width: 767.98px) {
+
+    .main-navbar .nav-link {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .reservation-button {
+        width: 100%;
+
+        margin-top: 12px;
+    }
+
+    .hero-section {
+        padding: 60px 16px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.8rem, 15vw, 4.5rem);
+    }
+
+    .hero-primary-button,
+    .hero-secondary-button {
+        width: 100%;
+
+        margin: 6px 0;
+    }
+
+    .auth-card {
+        padding: 32px 22px;
+    }
+
+    .auth-card h1 {
+        font-size: 2.5rem;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-card {
+        padding: 24px;
+    }
+
+    .dashboard-role-panel {
+        padding: 25px;
+    }
+
+    .reservation-page .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .reservation-heading {
+        margin-bottom: 2rem !important;
+    }
+
+    .reservation-rules {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .reservation-rules span {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .reservation-panel {
+        padding: 1.2rem;
+
+        border-radius: 12px;
+    }
+
+    .reservation-date-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .reservation-date-form .btn {
+        width: 100%;
+    }
+
+    .clean-court-row {
+        flex-direction: column;
+        align-items: stretch;
+
+        padding: 1.1rem;
+    }
+
+    .clean-court-title-row {
+        flex-direction: column;
+    }
+
+    .availability-count {
+        align-self: flex-start;
+    }
+
+    .clean-court-action {
+        width: 100%;
+    }
+
+    .clean-court-action .btn {
+        width: 100%;
+    }
+
+    .selected-booking-summary {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 0.5rem;
+    }
+
+    .reservation-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .reservation-field-wide {
+        grid-column: auto;
+    }
+
+    .reservation-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .reservation-form-actions .btn {
+        width: 100%;
+    }
+}
+
+
+/* ---------- SMALL PHONES ---------- */
+
+@media (max-width: 420px) {
+
+    .hero-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .auth-card {
+        padding: 28px 18px;
+    }
+
+    .reservation-panel {
+        padding: 1rem;
+    }
+
+    .clean-court-row {
+        padding: 1rem;
+    }
+
+    .reserved-period {
+        width: 100%;
+
+        text-align: center;
     }
 }
 
