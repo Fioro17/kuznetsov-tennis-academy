@@ -22,12 +22,37 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8-4f2huj5vqx72want-x6i28sc^x1&c&uiomn%$ekw_9(+iqbb'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'local-development-key-change-me'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get(
+    'DEBUG',
+    'True'
+).lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+]
+
+render_hostname = os.environ.get(
+    'RENDER_EXTERNAL_HOSTNAME'
+)
+
+if render_hostname:
+    ALLOWED_HOSTS.append(
+        render_hostname
+    )
+
+CSRF_TRUSTED_ORIGINS = []
+
+if render_hostname:
+    CSRF_TRUSTED_ORIGINS.append(
+        f'https://{render_hostname}'
+    )
 
 
 # Application definition
@@ -146,3 +171,14 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Production security
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = (
+        'HTTP_X_FORWARDED_PROTO',
+        'https'
+    )
+
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
