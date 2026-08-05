@@ -33,7 +33,9 @@ class Court(models.Model):
 
     surface = models.CharField(
         max_length=20,
-        choices=SURFACES
+        choices=SURFACES,
+        blank=True,
+        default=''
     )
 
     number = models.PositiveIntegerField()
@@ -43,18 +45,47 @@ class Court(models.Model):
     )
 
     def clean(self):
-
         super().clean()
 
-        if (
-            self.court_type == 'padel'
-            and self.surface != 'hard'
-        ):
-            raise ValidationError(
-                'Padel courts can only have hard surfaces.'
-            )
+        if self.court_type == 'padel':
+
+            if self.location != 'outdoor':
+                raise ValidationError(
+                    {
+                        'location': (
+                            'Padel courts must be outdoor.'
+                        )
+                    }
+                )
+
+            if self.surface:
+                raise ValidationError(
+                    {
+                        'surface': (
+                            'Padel courts have only one surface.'
+                        )
+                    }
+                )
+
+        elif self.court_type == 'tennis':
+
+            if not self.surface:
+                raise ValidationError(
+                    {
+                        'surface': (
+                            'Tennis courts must have a surface.'
+                        )
+                    }
+                )
 
     def __str__(self):
+
+        if self.court_type == 'padel':
+            return (
+                f'{self.get_location_display()} '
+                f'{self.get_court_type_display()} '
+                f'Court {self.number}'
+            )
 
         return (
             f'{self.get_location_display()} '
