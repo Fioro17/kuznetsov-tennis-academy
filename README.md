@@ -16,6 +16,5 @@ A full-stack tennis academy management system built with Django.
 
 - User authentication
 - Court reservations
-- Tournament hosting
 - Admin dashboard
 - REST API
