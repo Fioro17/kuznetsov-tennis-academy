@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from rest_framework import viewsets, permissions
+from .serializers import CourtSerializer, ReservationSerializer
 
 from .forms import ReservationForm
 from .models import Court, Reservation
@@ -15,7 +17,28 @@ ACADEMY_OPENING_TIME = time(8, 0)
 ACADEMY_CLOSING_TIME = time(22, 0)
 SLOT_LENGTH_MINUTES = 30
 
+class CourtViewSet(viewsets.ModelViewSet):
+    queryset = Court.objects.filter(is_active=True)
+    serializer_class = CourtSerializer
 
+    def get_permissions(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return [permissions.AllowAny()]
+        return [permissions.IsAdminUser()]
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    serializer_class = ReservationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Reservation.objects.filter(
+            user=self.request.user,
+            lesson_booking__isnull=True
+        ).select_related("court")
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
 def parse_selected_date(date_string):
 
     if not date_string:

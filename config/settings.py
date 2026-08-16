@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'coaches',
     'accounts.apps.AccountsConfig',
     'django_bootstrap5',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
